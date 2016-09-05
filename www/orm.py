@@ -10,13 +10,13 @@ from .fields import Field
 def log(sql, args=()):
     logging.info('SQL: %s' % sql)
 
-# create a connection pool, stored by global variable __pool
+# create a connection pool which stored in global variable __pool
 async def create_pool(loop, **kw):
     logging.info('create database connection pool...')
     global __pool
     __pool = await aiomysql.create_pool(
         host = kw.get('host', 'localhost'),
-        port = kw.get('port', 3306),
+        port = kw.get('port', 3306), # default MySQL port
         user = kw['user'],
         password = kw['password'],
         db = kw['db'],
@@ -27,7 +27,7 @@ async def create_pool(loop, **kw):
         loop = loop
     )
 
-# SELECT
+# mapping SQL SELECT
 async def select(sql, args, size=None):
     log(sql, args)
     global __pool
@@ -39,9 +39,9 @@ async def select(sql, args, size=None):
             else:
                 rs = await cur.fetchall()
         logging.info('rows returned: %s' % len(rs))
-        return rs # rs for resultset
+        return rs
     
-# INSERT INTO, UPDATE and DELETE
+# mapping SQL INSERT INTO, UPDATE and DELETE
 async def execute(sql, args, autocommit=True):
     log(sql)
     async with __pool.get() as conn:
@@ -65,8 +65,8 @@ def create_args_string(num):
         L.append('?')
     return ', '.join(L)
 
-# metaclass
-Class ModelMetaclass(type):
+# metaclass for ORM
+class ModelMetaclass(type):
     
     def __new__(cls, name, bases, attrs):
         if name == 'Model':
@@ -88,19 +88,20 @@ Class ModelMetaclass(type):
                     fields.append(k)
         if not primaryKey:
             raise StandardError('Primary key not found.')
-        escaped_fields = list(map(lambda f: '`%s`' % f, fields))
+        escaped_fields = list(map(lambda f: '`%s`' % f, fields)) # use ` ` to escape SQL keyword
         attrs['__mappings__'] = mappings
         attrs['__table__'] = tableName
         attrs['__primary_key__'] = primaryKey
         attrs['__fields__'] = fields
-        # SQL
+        # --SQL-- SELECT, INSERT INTO, UPDATE and DELETE
         attrs['__select__'] = 'select `%s`, %s from `%s`' % (primaryKey, ', '.join(escaped_fields), tableName)
         attrs['__insert__'] = 'insert into `%s` (%s, `%s`) values (%s)' % (tableName, ', '.join(escaped_fields), primaryKey, create_args_string(len(escaped_fields) + 1))
         attrs['__update__'] = 'update `%s` set %s where `%s`=?' % (tableName, ', '.join(map(lambda f: '`%s`=?' %(mappings.get(f).name or f), fields)), primaryKey)
         attrs['__delete__'] = 'delete from `%s` where `%s`=?' % (tableName, primaryKey)
         return type.__new__(cls, name, bases, attrs)
 
-Class Model(dict, metaclass=ModelMetaclass):
+# ORM mapping base class Model
+class Model(dict, metaclass=ModelMetaclass):
     
     def __init__(self, **kw):
         super().__init__(**kw) # same as super(Model, self), (super class = dict)
@@ -127,6 +128,7 @@ Class Model(dict, metaclass=ModelMetaclass):
                 setattr(self, key, value)
         return value
     
+    # three classmethods for SELECT
     @classmethod
     async def findAll(cls, where=None, args=None, **kw):
         '''find objects by where clause.'''
@@ -175,11 +177,25 @@ Class Model(dict, metaclass=ModelMetaclass):
             return None
         return cls(**rs[0])
     
+    # INSERT INTO and save
     async def save(self):
-        pass
-    
+        args = list(map(self.getValueOrDefault, self.__fields__))
+        args.append(self.getValueOrDefault(self.__primary_key__))
+        rows = await execute(self.__insert__, args)
+        if rows != 1:
+            loggin.warn('failed to insert record: affected rows: %s' % rows)
+            
+    # UPDATE
     async def update(self):
-        pass
+        args = list(map(self.getValue, self.__fields__))
+        args.append(self.getValue(self.__primary_key__))
+        rows = await execute(self.__update__, args)
+        if rows != 1:
+            loggin.warn('failed to update by primary key: affected rows: %s' % rows)
     
+    # DELETE
     async def remove(self):
-        pass
+        args = [self.getValue(self.__primary_key__)]
+        rows = await execute(self.__delete__, args)
+        if rows != 1:
+            loggin.warn('failed to remove by primary key: affected rows: %s' % rows)
