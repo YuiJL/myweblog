@@ -5,6 +5,8 @@ __author__ = 'Jiayi Li'
 
 import asyncio, aiomysql, logging
 
+from .fields import Field
+
 def log(sql, args=()):
     logging.info('SQL: %s' % sql)
 
@@ -30,16 +32,16 @@ async def select(sql, args, size=None):
     log(sql, args)
     global __pool
     async with __pool.get() as conn:
-        async with conn.cursor(aiomysql.DictCursor) as cursor:
-            await cursor.execute(sql.replace('?', '%s'), args or ()) # replace placeholder '?'(SQL) with '%s'(MySQL)
+        async with conn.cursor(aiomysql.DictCursor) as cur: # a cursor returns results as a dict
+            await cur.execute(sql.replace('?', '%s'), args or ()) # replace placeholder '?'(SQL) with '%s'(MySQL)
             if size:
-                rs = await cursor.fetchmany(size)
+                rs = await cur.fetchmany(size)
             else:
-                rs = await cursor.fetchall()
+                rs = await cur.fetchall()
         logging.info('rows returned: %s' % len(rs))
         return rs
     
-# INSERT, UPDATE and DELETE
+# INSERT INTO, UPDATE and DELETE
 async def execute(sql, args, autocommit=True):
     log(sql)
     async with __pool.get() as conn:
@@ -56,3 +58,10 @@ async def execute(sql, args, autocommit=True):
                 await conn.rollback()
             raise
         return affected
+
+Class ModelMetalclass(type):
+    pass
+
+Class Model(dict, metaclass=ModelMetaclass):
+    pass
+
