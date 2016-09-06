@@ -35,7 +35,7 @@ async def select(sql, args, size=None):
     global __pool
     async with __pool.get() as conn:
         async with conn.cursor(aiomysql.DictCursor) as cur: # a cursor returns results as a dict
-            await cur.execute(sql.replace('?', '%s'), args or ()) # replace placeholder '?'(SQL) with '%s'(MySQL)
+            await cur.execute(sql.replace('?', '%s'), args) # replace placeholder '?'(SQL) with '%s'(MySQL)
             if size:
                 rs = await cur.fetchmany(size)
             else:
@@ -61,23 +61,20 @@ async def execute(sql, args, autocommit=True):
             raise
         return affected
 
-def create_args_string(num):
-    L = []
-    for n in range(num):
-        L.append('?')
-    return ', '.join(L)
-
-# metaclass for ORM
+# metaclass for creating models
 class ModelMetaclass(type):
     
     def __new__(cls, name, bases, attrs):
+        # exclude Model class itself
         if name == 'Model':
             return type.__new__(cls, name, bases, attrs)
+        
         tableName = attrs.get('__table__', name)
         logging.info('found model: %s (table: %s)' % (name, tableName))
         mappings = {}
         fields = []
         primaryKey = None
+        
         for k, v in attrs.copy().items():
             if isinstance(v, Field):
                 logging.info('found mapping: %s ==> %s' % (k, v))
@@ -90,23 +87,24 @@ class ModelMetaclass(type):
                     fields.append(k)
         if not primaryKey:
             raise StandardError('Primary key not found.')
-        escaped_fields = list(map(lambda f: '`%s`' % f, fields)) # use ` ` to escape SQL keyword
+            
+        escaped_fields = list(map(lambda f: '`%s`' % f, fields)) # use `f` to escape
         attrs['__mappings__'] = mappings
         attrs['__table__'] = tableName
         attrs['__primary_key__'] = primaryKey
         attrs['__fields__'] = fields
-        # --SQL-- SELECT, INSERT INTO, UPDATE and DELETE
+        # SELECT, INSERT, UPDATE and DELETE
         attrs['__select__'] = 'select `%s`, %s from `%s`' % (primaryKey, ', '.join(escaped_fields), tableName)
-        attrs['__insert__'] = 'insert into `%s` (%s, `%s`) values (%s)' % (tableName, ', '.join(escaped_fields), primaryKey, create_args_string(len(escaped_fields) + 1))
-        attrs['__update__'] = 'update `%s` set %s where `%s`=?' % (tableName, ', '.join(map(lambda f: '`%s`=?' %(mappings.get(f).name or f), fields)), primaryKey)
-        attrs['__delete__'] = 'delete from `%s` where `%s`=?' % (tableName, primaryKey)
+        attrs['__insert__'] = 'insert into `%s` (%s, `%s`) values (%s)' % (tableName, ', '.join(escaped_fields), primaryKey, ', '.join('?' * (len(fields) + 1)))
+        attrs['__update__'] = 'update `%s` set %s where `%s` = ?' % (tableName, ', '.join(map(lambda f: '`%s` = ?' %(mappings.get(f).name or f), fields)), primaryKey)
+        attrs['__delete__'] = 'delete from `%s` where `%s` = ?' % (tableName, primaryKey)
         return type.__new__(cls, name, bases, attrs)
 
-# ORM mapping base class Model
+# ORM base class
 class Model(dict, metaclass=ModelMetaclass):
     
     def __init__(self, **kw):
-        super().__init__(**kw) # same as super(Model, self), (super class = dict)
+        super().__init__(**kw) # same as super(Model, self)
         
     def __getattr__(self, key):
         try:
@@ -130,7 +128,7 @@ class Model(dict, metaclass=ModelMetaclass):
                 setattr(self, key, value)
         return value
     
-    # three classmethods for SELECT
+    # classmethods for SELECT
     @classmethod
     async def findAll(cls, where=None, args=None, **kw):
         '''find objects by where clause.'''
@@ -162,7 +160,7 @@ class Model(dict, metaclass=ModelMetaclass):
     @classmethod
     async def findNumber(cls, selectField, where=None, args=None):
         '''find number of rows by select and where.'''
-        sql = ['select %s _num_ from `%s`' % (selectField, cls.__table__)]
+        sql = ['select count(%s) _num_ from `%s`' % (selectField, cls.__table__)]
         if where:
             sql.append('where')
             sql.append(where)
@@ -179,7 +177,7 @@ class Model(dict, metaclass=ModelMetaclass):
             return None
         return cls(**rs[0])
     
-    # INSERT INTO and save
+    # INSERT
     async def save(self):
         args = list(map(self.getValueOrDefault, self.__fields__))
         args.append(self.getValueOrDefault(self.__primary_key__))
