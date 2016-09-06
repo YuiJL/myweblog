@@ -5,26 +5,28 @@ __author__ = 'Jiayi Li'
 
 import asyncio, aiomysql, logging
 
-from .fields import Field
+from fields import Field
+
+logging.basicConfig(level=logging.INFO)
 
 def log(sql, args=()):
-    logging.info('SQL: %s' % sql)
+    logging.info('SQL: [%s] args: %s' % (sql, args or []))
 
 # create a connection pool which stored in global variable __pool
 async def create_pool(loop, **kw):
     logging.info('create database connection pool...')
     global __pool
     __pool = await aiomysql.create_pool(
+        loop = loop,
         host = kw.get('host', 'localhost'),
         port = kw.get('port', 3306), # default MySQL port
         user = kw['user'],
         password = kw['password'],
         db = kw['db'],
-        charset = kw.get('charset', 'utf-8'),
+        charset = kw.get('charset', 'utf8'),
         autocommit = kw.get('autocommit', True),
         maxsize = kw.get('maxsize', 10),
-        minsize = kw.get('minsize', 1),
-        loop = loop
+        minsize = kw.get('minsize', 1)
     )
 
 # mapping SQL SELECT
@@ -43,7 +45,7 @@ async def select(sql, args, size=None):
     
 # mapping SQL INSERT INTO, UPDATE and DELETE
 async def execute(sql, args, autocommit=True):
-    log(sql)
+    log(sql, args)
     async with __pool.get() as conn:
         if not autocommit:
             await conn.begin()
@@ -76,7 +78,7 @@ class ModelMetaclass(type):
         mappings = {}
         fields = []
         primaryKey = None
-        for k, v in attrs.items():
+        for k, v in attrs.copy().items():
             if isinstance(v, Field):
                 logging.info('found mapping: %s ==> %s' % (k, v))
                 mappings[k] = attrs.pop(k)
