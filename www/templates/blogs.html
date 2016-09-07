@@ -1,0 +1,36 @@
+{% extends '__base__.html' %}
+
+{% block title %}Blog{% endblock %}
+
+{% block beforehead %}
+
+<script>
+</script>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="col-sm-2 sidenav">
+        
+    </div>
+
+    <div class="col-sm-8 text-left">
+    <h4><small>RECENT POSTS</small></h4>
+    {% for blog in blogs %}
+        <h2><a href="#">{{ blog.name }}</a></h2>
+        <h5><span class="glyphicon glyphicon-time"></span> {{ blog.created_at|datetime }}</h5>
+        <!-- will add tags here -->
+        <p>{{ blog.summary }}</p>
+        <p><a href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a></p>
+        <hr>
+    {% endfor %}
+    </div>
+
+    <div class="col-sm-2 sidenav">
+        <p><a href="#">Link</a></p>
+        <p><a href="#">Link</a></p>
+        <p><a href="#">Link</a></p>
+    </div>
+
+{% endblock %}

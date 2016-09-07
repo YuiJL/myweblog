@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {% block meta %}<!-- block meta -->{% endblock %}
+    <title>{% block title %} ? {% endblock %} - Jiayi Li's Webapp</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/yui.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    {% block beforehead %}<!-- before head -->{% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar">1</span>
+                    <span class="icon-bar">2</span>
+                    <span class="icon-bar">3</span>
+                </button>
+                <a class="navbar-brand" href="#">Logo</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li>
+                        <a target="_blank" href="https://github.com/YuiJL/myweblog">
+                            <span class="glyphicon glyphicon-link"></span> Source Code</a>
+                    </li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                {% if __user__ %}
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"> {{ __user__.name }}
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/signout"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <!-- will use AJAX here -->
+                    <li><a href="/signin"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    <li><a href="/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container-fluid text-center">
+        <div class="row content">
+            <!-- content -->
+            {% block content %}
+            {% endblock %}
+            <!-- content -->
+        </div>
+    </div>
+    
+    <footer class="container-fluid text-center">
+        <p>Powered by <a target="_blank" href="http://getbootstrap.com">Bootstrap</a></p>
+        <p>Jiayi Li's Website. Copyright &copy; 2016. [<a href="/manage/" target="_blank">Manage</a>]</p>
+        <p><a href="http://www.yuijiayi.com">www.yuijiayi.com</a>. All rights reserved.</p>
+    </footer>
+</body>
+</html>
