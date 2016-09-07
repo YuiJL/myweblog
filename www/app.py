@@ -141,7 +141,7 @@ async def init(loop, config_mod):
     app = web.Application(loop=loop, middlewares=[logger_factory, data_factory, response_factory])
     init_jinja2(app, filters=dict(datetime=datetime_filter))
     add_routes(app, 'handlers')
-    # add_static(app)
+    add_static(app)
     server = await loop.create_server(app.make_handler(), '', 9000)
     logging.info('Running on http://localhost:9000...')
     return server
