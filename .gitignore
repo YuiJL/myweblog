@@ -91,3 +91,6 @@ ENV/
 
 # Test files
 test.py
+
+# others
+.DS_Store

@@ -11,15 +11,20 @@
 
 {% block content %}
 
-    <div class="col-sm-2 sidenav">
-        
+    <div class="col-sm-2 sidenav text-center">
+      <p>Title</p>
+      <p>Title</p>
+      <p>Title</p>
+      <p><a href="#">Link</a></p>
+      <p><a href="#">Link</a></p>
+      <p><a href="#">Link</a></p>
     </div>
 
-    <div class="col-sm-8 text-left">
+    <div class="col-sm-8" id="main">
     <h4><small>RECENT POSTS</small></h4>
     {% for blog in blogs %}
-        <h2><a href="#">{{ blog.name }}</a></h2>
-        <h5><span class="glyphicon glyphicon-time"></span> {{ blog.created_at|datetime }}</h5>
+        <h2 class="text-primary">{{ blog.name }}</h2>
+        <h4><small><span class="glyphicon glyphicon-time"></span> Posted by user, {{ blog.created_at|datetime }}</small></h4>
         <!-- will add tags here -->
         <p>{{ blog.summary }}</p>
         <p><a href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a></p>
@@ -27,10 +32,13 @@
     {% endfor %}
     </div>
 
-    <div class="col-sm-2 sidenav">
-        <p><a href="#">Link</a></p>
-        <p><a href="#">Link</a></p>
-        <p><a href="#">Link</a></p>
+    <div class="col-sm-2 sidenav text-center">      
+        <div class="well">
+            <p>Content</p>
+        </div>
+        <div class="well">
+            <p>Content</p>
+        </div>
     </div>
 
 {% endblock %}
