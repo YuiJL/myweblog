@@ -4,10 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     {% block meta %}<!-- block meta -->{% endblock %}
-    <title>{% block title %} ? {% endblock %} - Jiayi Li's Webapp</title>
+    <title>{% block title %}{% endblock %} - Jiayi Li's Webapp</title>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/yui.css" />
-
     {% block beforehead %}<!-- before head -->{% endblock %}
 </head>
 <body>
@@ -27,6 +26,7 @@
                     <li><a href="#">Contact</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                <!--
                 {% if __user__ %}
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#"> {{ __user__.name }}
@@ -36,10 +36,40 @@
                         </ul>
                     </li>
                 {% else %}
+                -->
                     <!-- will use AJAX here -->
-                    <li><a href="/signin"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                    <li><a href="/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                {% endif %}
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <span class="glyphicon glyphicon-user"></span> Login <span class="caret"></span>
+                        </a>
+                        <ul id="login-dp" class="dropdown-menu">
+                            <li>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <form class="form" method="post" action="login" accept-charset="utf-8" id="login-nav">
+                                            <div class="form-group">
+                                                <label class="sr-only" for="inputEmail">Email address</label>
+                                                <input type="email" class="form-control" id="inputEmail" placeholder="Email address" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="sr-only" for="exampleInputPassword2">Password</label>
+                                                <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password" required>
+                                                <div class="help-block text-right"><a href="">Forget the password?</a></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="bottom text-center">
+                                        <a href="#"><b>Sign Up Now!</b></a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="/register"><span class="glyphicon glyphicon-log-in"></span> Sign Up</a></li>
+                <!-- {% endif %} -->
                 </ul>
             </div>
         </div>
@@ -55,11 +85,13 @@
     </div>
     
     <footer class="container-fluid text-center">
-        <p>Powered by <a target="_blank" href="http://getbootstrap.com">Bootstrap</a></p>
+        <p>Powered by <a target="_blank" href="http://getbootstrap.com">Bootstrap</a> and <a target="_blank" href="http://flask.pocoo.org">Flask</a></p>
         <p>Jiayi Li's Website. Copyright &copy; 2016. [<a href="/manage/" target="_blank">Manage</a>]</p>
         <p><a href="http://www.yuijiayi.com">www.yuijiayi.com</a>. All rights reserved.</p>
     </footer>
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="static/js/vue.min.js"></script>
 </body>
 </html>

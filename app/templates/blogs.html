@@ -23,8 +23,8 @@
     <div class="col-sm-8" id="main">
     <h4><small>RECENT POSTS</small></h4>
     {% for blog in blogs %}
-        <h2 class="text-primary">{{ blog.name }}</h2>
-        <h4><small><span class="glyphicon glyphicon-time"></span> Posted by user, {{ blog.created_at|datetime }}</small></h4>
+        <h2 class="text-primary">{{ blog.title }}</h2>
+        <h4><small><span class="glyphicon glyphicon-time"></span> Posted by user, {{ blog.date|datetime }}</small></h4>
         <!-- will add tags here -->
         <p>{{ blog.summary }}</p>
         <p><a href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a></p>

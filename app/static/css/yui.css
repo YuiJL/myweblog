@@ -33,9 +33,34 @@ footer a:hover {
 
 /* On small screens, set height to 'auto' for sidenav and grid */
 @media screen and (max-width: 767px) {
-    .sidenav {
-        height: auto;
-        padding: 15px;
+    #login-dp {
+        background-color: inherit;
+        color: #fff;
     }
-    .row.content {height:auto;}
+    #login-dp .bottom {
+        background-color: inherit;
+        border-top:0 none;
+    }
+}
+
+#login-dp {
+    min-width: 250px;
+    padding: 14px 14px 0;
+    overflow: hidden;
+    background-color: white;
+}
+
+#login-dp .help-block {
+    font-size: 12px; 
+}
+
+#login-dp .bottom {
+    background-color: white;
+    border-top: 1px solid #ddd;
+    clear: both;
+    padding: 14px;
+}
+
+#login-dp .form-group {
+    margin-bottom: 10px;
 }
