@@ -1,24 +1,17 @@
 {% extends '__base__.html' %}
 
 {% block title %}Register{% endblock %}
-
-{% block beforehead %}
-
-<script>
-</script>
-
-{% endblock %}
     
 {% block content %}
     <div class="container">    
         <div id="loginbox" style="display:none; margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <div class="panel-title"><b>Sign in</b></div>
+                    <div class="panel-title"><strong>Sign in</strong></div>
                 </div>     
                 <div style="padding-top:30px" class="panel-body">
                     <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
-                    <form id="loginform" class="form-horizontal" role="form">     
+                    <form id="loginform" class="form-horizontal">     
                         <div style="margin-bottom: 25px" class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
                             <input id="login-username" type="email" class="form-control" name="username" placeholder="Email address" required>                                        
@@ -49,40 +42,45 @@
         <div id="signupbox" style="margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <div class="panel-title"><b>Create an account</b></div>
+                    <div class="panel-title"><strong>Create an account</strong></div>
                     <div style="float:right; font-size: 85%; position: relative; top:-10px">
                         <a id="signinlink" href="#" onclick="$('#signupbox').hide(); $('#loginbox').show()">Sign In</a>
                     </div>
-                </div>  
+                </div>
                 <div class="panel-body">
-                    <form id="signupform" v-on:submit="submit" class="form-horizontal">
+                    <form id="signupform" v-on:submit.prevent="submit" class="form-horizontal">
+                        <div class="alert alert-danger" style="padding:10px" hidden="hidden">
+                            <a class="close" onclick="$('.alert').fadeOut('fast')">&times; </a>
+                            <span class="glyphicon glyphicon-info-sign"></span>
+                            <span v-text="message"></span>
+                        </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Name</label>
                             <div class="col-md-9">
-                                <input v-model="name" type="text" maxlength="50" class="form-control" placeholder="Name" required>
+                                <input class="form-control" v-model="name" type="name" maxlength="50" placeholder="Name" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">E-mail</label>
                             <div class="col-md-9">
-                                <input v-model="email" type="email" maxlength="50" class="form-control" placeholder="Email Address" required>
+                                <input class="form-control" v-model="email" type="email" maxlength="50" placeholder="Email Address" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Password</label>
                             <div class="col-md-9">
-                                <input v-model="password1" type="password" maxlength="50" class="form-control" placeholder="Password" required>
+                                <input class="form-control" v-model="password1" type="password" maxlength="50" placeholder="Password" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Enter again</label>
                             <div class="col-md-9">
-                                <input v-model="password2" type="password" maxlength="50" class="form-control" placeholder="Password" required>
+                                <input class="form-control" v-model="password2" type="password" maxlength="50" placeholder="Password" required>
                             </div>
                         </div>
                         <div class="form-group">                                      
                             <div class="col-md-offset-3 col-md-3">
-                                <button type="submit" form="signupform" class="btn btn-info"><span class="glyphicon glyphicon-hand-right"></span> Sign Up</button> 
+                                <button class="btn btn-primary"><span class="glyphicon glyphicon-hand-right"></span> Sign Up</button>
                             </div>
                         </div>
                     </form>
@@ -90,4 +88,9 @@
              </div>
          </div> 
     </div>
+{% endblock %}
+
+{% block script %}
+    <script src="/static/js/sha1.min.js"></script>
+    <script src="/static/js/register.js"></script>
 {% endblock %}
