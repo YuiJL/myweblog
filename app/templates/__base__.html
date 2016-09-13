@@ -7,7 +7,6 @@
     <title>{% block title %}{% endblock %} - Jiayi Li's Webapp</title>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/yui.css" />
-    {% block beforehead %}<!-- before head -->{% endblock %}
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed">
@@ -62,7 +61,7 @@
                                         </form>
                                     </div>
                                     <div class="bottom text-center">
-                                        <a href="#"><b>Sign Up Now!</b></a>
+                                        <a href="/register"><b>Sign Up Now!</b></a>
                                     </div>
                                 </div>
                             </li>
@@ -93,5 +92,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="static/js/vue.min.js"></script>
+    {% block script %} <!-- add script here --> {% endblock %}
 </body>
 </html>
