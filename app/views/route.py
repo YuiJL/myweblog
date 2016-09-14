@@ -4,32 +4,15 @@
 __author__ = 'Jiayi Li'
 
 import time, hashlib
+
 from flask import Flask, request, redirect, url_for, render_template, jsonify, abort, Blueprint, make_response
 from app import db
 from app.models import User
+from app.utilities import userToCookie, validPassword, signInResponse, signOutResponse
 
 route = Blueprint('route', __name__)
 
 APIS = ('blogs', 'users', 'comments')
-COOKIE_NAME = "YuiSession"
-SECRET_KEY = "YuiJLWebLog"
-
-def userToCookie(user, max_age=86400):
-    expire_time = str(max_age + int(time.time()))
-    sha1_before = '%s-%s-%s-%s' % (user['name'], user['password'], expire_time, SECRET_KEY) # cookie key will be configured later
-    L = [user['name'], expire_time, hashlib.sha1(sha1_before.encode('utf-8')).hexdigest()]
-    return '-'.join(L)
-
-def signInResponse(response, cookie, max_age=86400):
-    response.set_cookie(COOKIE_NAME, cookie, max_age, httponly=True) # cookie name will be configured later
-    return response
-
-def validPassword(user, password):
-    sha1 = hashlib.sha1()
-    sha1.update(password.encode('utf-8'))
-    sha1.update(user['email'].encode('utf-8'))
-    sha1.update(b'the-Salt')
-    return sha1.hexdigest() == user['password']
 
 @route.route('/')
 def index():
@@ -81,3 +64,7 @@ def api_get(collection):
         item['_id'] = str(item['_id'])
         a.append(item)
     return jsonify({collection:a})
+
+@route.route('/signout')
+def signout():
+    return signOutResponse(redirect(url_for('route.index')))
