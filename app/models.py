@@ -9,9 +9,6 @@ from flask import current_app
 
 from app import db
 
-COOKIE_NAME = "YuiSession"
-SECRET_KEY = "YuiJLWebLog"
-
 class User(object):
     
     def __init__(self, **kw):
@@ -26,15 +23,7 @@ class User(object):
     def register(self):
         sha1_password = self.password + self.email + 'the-Salt'
         self.password = hashlib.sha1(sha1_password.encode('utf-8')).hexdigest()
-        user = self.__dict__
-        db.users.insert_one(user)
-        
-    def signInResponse(self, resp, max_age=86400):
-        expire_time = str(max_age + int(time.time()))
-        sha1_before = '%s-%s-%s-%s' % (self.name, self.password, expire_time, SECRET_KEY) # cookie key will be adjusted later
-        L = [self.name, expire_time, hashlib.sha1(sha1_before.encode('utf-8')).hexdigest()]
-        resp.set_cookie(COOKIE_NAME, '-'.join(L), max_age, httponly=True)
-        return resp
+        db.users.insert_one(self.__dict__)
         
 class Blog(object):
     
