@@ -3,7 +3,7 @@ function validEmail(email) {
     return re.test(email);
 }
 
-var vm = new Vue({
+new Vue({
     el: '#signupform',
     data: {
         name: '',
@@ -13,7 +13,7 @@ var vm = new Vue({
         message: ''
     },
     methods: {
-        submit: function() {
+        register: function() {
             this.email = this.email.trim();
             var self = this;
             if (!validEmail(this.email)) {
