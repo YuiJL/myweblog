@@ -7,50 +7,54 @@
         <div id="loginbox" style="display:none; margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <div class="panel-title"><strong>Sign in</strong></div>
-                </div>     
+                    <div class="panel-title"><strong>Log In</strong></div>
+                </div>
                 <div style="padding-top:30px" class="panel-body">
-                    <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
-                    <form id="loginform" class="form-horizontal">     
+                    <form id="loginform" v-on:submit.prevent="login" class="form-horizontal">
+                        <div class="alert alert-danger" style="padding:10px" hidden>
+                            <a class="close" onclick="$('.alert').fadeOut('fast')">&times;</a>
+                            <span class="glyphicon glyphicon-info-sign"></span>
+                            <span v-text="message"></span>
+                        </div>
                         <div style="margin-bottom: 25px" class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                            <input id="login-username" type="email" class="form-control" name="username" placeholder="Email address" required>                                        
+                            <input class="form-control" v-model="email" type="email" placeholder="Email address" required>
                         </div>
                         <div style="margin-bottom: 25px" class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                            <input id="login-password" type="password" class="form-control" name="password" placeholder="Password" required>
+                            <input class="form-control" v-model="password" type="password" placeholder="Password" required>
                         </div>
                         <div style="margin-top:10px" class="form-group">
                             <div class="col-sm-12 controls" align="center">
-                                <a id="btn-login" href="#" class="btn btn-success" style="padding:10px 100px 10px 100px;">Submit</a>
-                        </div>
+                                <button class="btn btn-success" style="padding:10px 100px 10px 100px;">Submit</button>
+                            </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-12 control">
                                 <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%">
                                     Don't have an account?
-                                    <a href="#" onClick="$('#loginbox').hide(); $('#signupbox').show()">
+                                    <a href="#" onclick="$('#loginbox').hide(); $('#signupbox').show()">
                                         Sign Up Here
                                     </a>
                                 </div>
                             </div>
-                        </div>    
-                    </form> 
-                </div>                     
-            </div>  
+                        </div>
+                    </form>
+                </div>                
+            </div>
         </div>
         <div id="signupbox" style="margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
             <div class="panel panel-info">
                 <div class="panel-heading">
                     <div class="panel-title"><strong>Create an account</strong></div>
                     <div style="float:right; font-size: 85%; position: relative; top:-10px">
-                        <a id="signinlink" href="#" onclick="$('#signupbox').hide(); $('#loginbox').show()">Sign In</a>
+                        <a href="#" onclick="$('#signupbox').hide(); $('#loginbox').show()">Sign In</a>
                     </div>
                 </div>
                 <div class="panel-body">
-                    <form id="signupform" v-on:submit.prevent="submit" class="form-horizontal">
+                    <form id="signupform" v-on:submit.prevent="register" class="form-horizontal">
                         <div class="alert alert-danger" style="padding:10px" hidden>
-                            <a class="close" onclick="$('.alert').fadeOut('fast')">&times; </a>
+                            <a class="close" onclick="$('.alert').fadeOut('fast')">&times;</a>
                             <span class="glyphicon glyphicon-info-sign"></span>
                             <span v-text="message"></span>
                         </div>
@@ -69,16 +73,16 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Password</label>
                             <div class="col-md-9">
-                                <input class="form-control" v-model="password1" type="password" maxlength="50" placeholder="Password" required>
+                                <input class="form-control" v-model="password1" type="password" maxlength="16" placeholder="Password" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Enter again</label>
                             <div class="col-md-9">
-                                <input class="form-control" v-model="password2" type="password" maxlength="50" placeholder="Password" required>
+                                <input class="form-control" v-model="password2" type="password" maxlength="16" placeholder="Password" required>
                             </div>
                         </div>
-                        <div class="form-group">                                      
+                        <div class="form-group">
                             <div class="col-md-offset-3 col-md-3">
                                 <button class="btn btn-primary"><span class="glyphicon glyphicon-hand-right"></span> Sign Up</button>
                             </div>
@@ -86,11 +90,12 @@
                     </form>
                  </div>
              </div>
-         </div> 
+         </div>
     </div>
 {% endblock %}
 
 {% block script %}
     <script src="/static/js/sha1.min.js"></script>
     <script src="/static/js/register.js"></script>
+    <script src="/static/js/login.js"></script>
 {% endblock %}
