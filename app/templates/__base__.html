@@ -25,38 +25,38 @@
                     <li><a href="#">Contact</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                <!--
-                {% if __user__ %}
+                {% if g.__user__ %}
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"> {{ __user__.name }}
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"> {{ g.__user__.name }}
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="/signout"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
                         </ul>
                     </li>
                 {% else %}
-                -->
-                    <!-- will use AJAX here -->
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <span class="glyphicon glyphicon-user"></span> Login <span class="caret"></span>
+                            <span class="glyphicon glyphicon-user"></span> Log In <span class="caret"></span>
                         </a>
                         <ul id="login-dp" class="dropdown-menu">
                             <li>
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <form class="form" method="post" action="login" accept-charset="utf-8" id="login-nav">
-                                            <div class="form-group">
-                                                <label class="sr-only" for="inputEmail">Email address</label>
-                                                <input type="email" class="form-control" id="inputEmail" placeholder="Email address" required>
+                                        <form id="dropdownlogin" v-on:submit.prevent="login" class="form">
+                                            <div class="alert alert-danger" style="padding:10px" hidden>
+                                                <a class="close" onclick="$('.alert').fadeOut('fast')">&times;</a>
+                                                <span class="glyphicon glyphicon-info-sign"></span>
+                                                <span v-text="message"></span>
                                             </div>
                                             <div class="form-group">
-                                                <label class="sr-only" for="exampleInputPassword2">Password</label>
-                                                <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password" required>
+                                                <input class="form-control" v-model="email" type="email" placeholder="Email address" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <input class="form-control" v-model="password" type="password" placeholder="Password" required>
                                                 <div class="help-block text-right"><a href="">Forget the password?</a></div>
                                             </div>
                                             <div class="form-group">
-                                                <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                                                <button class="btn btn-primary btn-block">Sign In</button>
                                             </div>
                                         </form>
                                     </div>
@@ -68,12 +68,11 @@
                         </ul>
                     </li>
                     <li><a href="/register"><span class="glyphicon glyphicon-log-in"></span> Sign Up</a></li>
-                <!-- {% endif %} -->
+                {% endif %}
                 </ul>
             </div>
         </div>
     </nav>
-    
     <div class="container-fluid">
         <div class="row content">
             <!-- content -->
@@ -82,16 +81,16 @@
             <!-- content -->
         </div>
     </div>
-    
     <footer class="container-fluid text-center">
         <p>Powered by <a target="_blank" href="http://getbootstrap.com">Bootstrap</a> and <a target="_blank" href="http://flask.pocoo.org">Flask</a></p>
         <p>Jiayi Li's Website. Copyright &copy; 2016. [<a href="/manage/" target="_blank">Manage</a>]</p>
         <p><a href="http://www.yuijiayi.com">www.yuijiayi.com</a>. All rights reserved.</p>
     </footer>
-    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="static/js/vue.min.js"></script>
+    <script src="/static/js/sha1.min.js"></script>
+    <script src="/static/js/login.js"></script>
     {% block script %} <!-- add script here --> {% endblock %}
 </body>
 </html>

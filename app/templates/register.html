@@ -16,11 +16,11 @@
                             <span class="glyphicon glyphicon-info-sign"></span>
                             <span v-text="message"></span>
                         </div>
-                        <div style="margin-bottom: 25px" class="input-group">
+                        <div style="margin-bottom:25px" class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
                             <input class="form-control" v-model="email" type="email" placeholder="Email address" required>
                         </div>
-                        <div style="margin-bottom: 25px" class="input-group">
+                        <div style="margin-bottom:25px" class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                             <input class="form-control" v-model="password" type="password" placeholder="Password" required>
                         </div>
@@ -95,7 +95,5 @@
 {% endblock %}
 
 {% block script %}
-    <script src="/static/js/sha1.min.js"></script>
     <script src="/static/js/register.js"></script>
-    <script src="/static/js/login.js"></script>
 {% endblock %}
