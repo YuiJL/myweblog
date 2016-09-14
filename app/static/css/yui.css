@@ -11,6 +11,7 @@
 }
 
 #main {
+    padding-left: 10%;
     background-color: #FFFAF0;
 }
 
@@ -22,7 +23,7 @@
 footer {
     background-color: #555;
     color: white;
-    padding: 15px;
+    padding-top: 15px;
 }
 
 /* Set footer hyperlink hover color, with no text-decoration */
@@ -50,8 +51,8 @@ footer a:hover {
     background-color: white;
 }
 
-#login-dp .help-block {
-    font-size: 12px; 
+#login-dp .alert {
+    padding: 2px;
 }
 
 #login-dp .bottom {
@@ -63,4 +64,12 @@ footer a:hover {
 
 #login-dp .form-group {
     margin-bottom: 10px;
+}
+
+#signupbox {
+    margin-top: 50px;
+}
+
+#signupform .alert {
+    padding: 10px;
 }

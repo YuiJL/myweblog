@@ -2,25 +2,8 @@
 
 {% block title %}Blog{% endblock %}
 
-{% block beforehead %}
-
-<script>
-</script>
-
-{% endblock %}
-
 {% block content %}
-
-    <div class="col-sm-2 sidenav text-center">
-      <p>Title</p>
-      <p>Title</p>
-      <p>Title</p>
-      <p><a href="#">Link</a></p>
-      <p><a href="#">Link</a></p>
-      <p><a href="#">Link</a></p>
-    </div>
-
-    <div class="col-sm-8" id="main">
+    <div class="col-sm-9" id="main">
     <h4><small>RECENT POSTS</small></h4>
     {% for blog in blogs %}
         <h2 class="text-primary">{{ blog.title }}</h2>
@@ -31,14 +14,18 @@
         <hr>
     {% endfor %}
     </div>
-
-    <div class="col-sm-2 sidenav text-center">      
+    <div class="col-sm-3 sidenav text-center">      
         <div class="well">
             <p>Content</p>
         </div>
         <div class="well">
             <p>Content</p>
         </div>
+        <p>Title</p>
+        <p>Title</p>
+        <p>Title</p>
+        <p><a href="#">Link</a></p>
+        <p><a href="#">Link</a></p>
+        <p><a href="#">Link</a></p>
     </div>
-
 {% endblock %}
