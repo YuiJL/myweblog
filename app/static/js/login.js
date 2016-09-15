@@ -18,14 +18,9 @@ new Vue({
             }).done(function() {
                 return location.assign('/');
             }).fail(function(xhr) {
-                if (xhr.responseText === "invalid email") {
-                    self.message = 'E-mail not found!';
-                }
-                if (xhr.responseText === "wrong password") {
-                    self.message = 'Wrong password!';
-                }
+                self.message = xhr.responseText;
                 return $('.alert').show();
             });
         }
     }
-});
+})

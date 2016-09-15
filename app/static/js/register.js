@@ -38,14 +38,9 @@ new Vue({
             }).done(function() {
                 return location.assign('/');
             }).fail(function(xhr) {
-                if (xhr.responseText === "name is taken") {
-                    self.message = 'Username is already in use!';
-                }
-                if (xhr.responseText === "email is taken") {
-                    self.message = 'E-mail address is already in use!';
-                }
+                self.message = xhr.responseText;
                 return $('.alert').show();
             });
         }
     }
-});
+})

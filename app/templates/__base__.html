@@ -6,6 +6,7 @@
     {% block meta %}<!-- block meta -->{% endblock %}
     <title>{% block title %}{% endblock %} - Jiayi Li's Webapp</title>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:500" />
     <link rel="stylesheet" href="/static/css/yui.css" />
 </head>
 <body>
@@ -21,7 +22,7 @@
                     </li>
                     <li>
                         <a target="_blank" href="https://github.com/YuiJL/myweblog">
-                            <span class="glyphicon glyphicon-fire"></span> Source Code</a>
+                            <span class="glyphicon glyphicon-fire"></span> Source</a>
                     </li>
                     <li><a href="#">Contact</a></li>
                     <li><a href="#">About</a></li>
@@ -81,13 +82,13 @@
         </div>
     </div>
     <footer class="container-fluid text-center">
-        <p>Powered by <a target="_blank" href="http://getbootstrap.com">Bootstrap</a> and <a target="_blank" href="http://flask.pocoo.org">Flask</a></p>
-        <p>Jiayi Li's Website. Copyright &copy; 2016. [<a href="/manage/" target="_blank">Manage</a>]</p>
+        <p>&copy; 2016 Jiayi Li [<a href="/manage/" target="_blank">Manage</a>]</p>
         <p><a href="http://www.yuijiayi.com">www.yuijiayi.com</a>. All rights reserved.</p>
+        <p>Proudly powered by <a target="_blank" href="http://getbootstrap.com">Bootstrap</a> and <a target="_blank" href="http://flask.pocoo.org">Flask</a></p>
     </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="static/js/vue.min.js"></script>
+    <script src="/static/js/vue.min.js"></script>
     <script src="/static/js/sha1.min.js"></script>
     <script src="/static/js/login.js"></script>
     {% block script %} <!-- add script here --> {% endblock %}
