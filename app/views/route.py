@@ -245,7 +245,7 @@ def api_post_and_get_comment(blog_id):
     comment = Comment(
         blog_id = blog_id,
         user_id = g.__user__.get('_id'),
-        user_email = g.__user__.get('name'),
+        user_name = g.__user__.get('name'),
         user_image = g.__user__.get('image'),
         content = content
     )
@@ -277,7 +277,6 @@ def api_pose_subcomment(blog_id, comment_id):
                 'subcontent': {
                     'user_id': g.__user__.get('_id'),
                     'user_name': g.__user__.get('name'),
-                    'user_email': g.__user__.get('email'),
                     'user_image': g.__user__.get('image'),
                     'content': content,
                     'created': int(time.time())

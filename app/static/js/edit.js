@@ -20,7 +20,7 @@ new Vue({
         if (location.pathname.split('/').pop() === 'edit') {
             var id = getParamFromUrl('id');
             self.url = self.url + '/' + id;
-            $.getJSON('/api/blogs' + id, function(blog){
+            $.getJSON('/api/blogs' + id, function(blog) {
                 self.blog = blog;
             });
         }

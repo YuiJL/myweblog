@@ -24,7 +24,6 @@
                         <a target="_blank" href="https://github.com/YuiJL/myweblog">
                             <span class="glyphicon glyphicon-fire"></span> Source</a>
                     </li>
-                    <li><a href="#">Contact</a></li>
                     <li><a href="#">About</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -33,6 +32,9 @@
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#"> {{ g.__user__.name }}
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu">
+                            {% if g.__user__.admin %}
+                            <li><a href="/manage/blogs/newblog"><span class="glyphicon glyphicon-plus"></span> New Blog</a></li>
+                            {% endif %}
                             <li><a href="/signout"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
                         </ul>
                     </li>
@@ -79,6 +81,10 @@
         <div class="row content">
             {% block content %}
             {% endblock %}
+            <div class="col-sm-3 sidenav text-center">
+                {% block sidecontent %}
+                {% endblock %}
+            </div>
         </div>
     </div>
     <footer class="container-fluid text-center">
