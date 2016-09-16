@@ -13,7 +13,7 @@
     <h4>Leave a Comment:</h4>
     <form class="form" v-on:submit.prevent="submit">
         <div class="form-group">
-            <textarea class="form-control" rows="8" v-model="comment" placeholder="Content" required></textarea>
+            <textarea class="form-control" rows="6" v-model="comment" placeholder="Content" required></textarea>
         </div>
         <div class="form-group">
             <button class="btn btn-success">Submit</button>
@@ -21,17 +21,19 @@
     </form>
     <br><br>
     {% else %}
-    <h4>Please login</h4>
+    <h4>Please sign in</h4>
     {% endif %}
     
-    <p><span class="badge">2</span> Comments:</p><br>
+    <p><span class="badge" v-text="comments | count"></span> Comments:</p><br>
     <div class="row" v-for="item in comments" track-by="_id">
         <div class="col-sm-2 text-center">
             <img :src="item.user_image" class="img-circle" height="65" width="65" alt="Avatar" />
         </div>
         <div class="col-sm-10">
-            <h4 v-text="item.user_name"></h4>
-            <p v-text="item.content"></p>
+            <h4 style="display:inline-block" v-text="item.user_name"></h4>
+            <h4 style="display:inline-block"></h4>
+            <h4 style="display:inline-block"><small v-text="item.created | datetime"></small></h4>
+            <p style="overflow-x:scroll" v-html="item.content"></p>
             <br>
         </div>
     </div>
