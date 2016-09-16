@@ -5,6 +5,16 @@ new Vue({
         comment: '',
         comments: []
     },
+    filters: {
+        datetime: function(value) {
+            var d = new Date(value*1000);
+            var dateString = d.toString().split(' ');
+            return dateString[1] + ' ' + dateString[2] + ', ' + dateString[3] + ', ' + dateString[4] + ' ' + dateString[6];
+        },
+        count: function(data) {
+            return data.length;
+        }
+    },
     ready: function() {
         var self = this;
         $.getJSON('/api/blogs/' + self.id + '/comments', function(data) {
@@ -19,7 +29,7 @@ new Vue({
                 method: "POST"
             }).done(function(data) {
                 self.comment = '';
-                self.comments = data.comments.concat(self.comments);
+                self.comments = data.comments;
             });
         }
     }
