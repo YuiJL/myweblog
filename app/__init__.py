@@ -17,7 +17,7 @@ from app.utilities import cookieToUser
 from app.views.route import route
 
 def loginStatus():
-    cookie = request.cookies.get(COOKIE_NAME)
+    cookie = request.cookies.get(COOKIE_NAME, 'nothing')
     g.__user__ = cookieToUser(cookie)
 
 def create_app():

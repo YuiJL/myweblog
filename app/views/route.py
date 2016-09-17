@@ -35,6 +35,7 @@ def single_blog(blog_id):
     '''blog page'''
     
     blog = db.blogs.find_one({'_id': ObjectId(blog_id)})
+    blog.update(_id=str(blog['_id']))
     return render_template('blog.html', blog=blog)
 
 
@@ -122,7 +123,7 @@ def signout():
     
     '''return a sign out response'''
     
-    return signOutResponse(redirect(url_for('route.index')))
+    return signOutResponse(redirect(request.referrer or url_for('route.index')))
 
 
 #************************************
