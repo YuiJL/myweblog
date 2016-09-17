@@ -3,57 +3,57 @@
 {% block title %}Register{% endblock %}
     
 {% block content %}
-    <div class="container">    
-        <div id="signupbox" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <div class="panel-title text-center"><strong>Create An Account</strong></div>
-                </div>
-                <div class="panel-body">
-                    <form id="signupform" v-on:submit.prevent="register" class="form-horizontal">
-                        <div class="alert alert-danger" hidden>
-                            <a class="close" onclick="$('.alert').fadeOut('fast')">&times;</a>
-                            <span class="glyphicon glyphicon-info-sign"></span>
-                            <span v-text="message"></span>
+<div class="container" id="register">    
+    <div id="signupbox" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title text-center"><strong>Create An Account</strong></div>
+            </div>
+            <div class="panel-body">
+                <form id="signupform" v-on:submit.prevent="register" class="form-horizontal">
+                    <div class="alert alert-danger" hidden>
+                        <a class="close" onclick="$('.alert').fadeOut('fast')">&times;</a>
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                        <span v-text="message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Name</label>
+                        <div class="col-md-8 input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input class="form-control" v-model="name" type="name" maxlength="50" placeholder="Name" required>
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Name</label>
-                            <div class="col-md-8 input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                <input class="form-control" v-model="name" type="name" maxlength="50" placeholder="Name" required>
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">E-mail</label>
+                        <div class="col-md-8 input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                            <input class="form-control" v-model="email" type="email" maxlength="50" placeholder="Email Address" required>
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">E-mail</label>
-                            <div class="col-md-8 input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                <input class="form-control" v-model="email" type="email" maxlength="50" placeholder="Email Address" required>
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Password</label>
+                        <div class="col-md-8 input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input class="form-control" v-model="password1" type="password" maxlength="16" placeholder="Password" required>
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Password</label>
-                            <div class="col-md-8 input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                <input class="form-control" v-model="password1" type="password" maxlength="16" placeholder="Password" required>
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Enter again</label>
+                        <div class="col-md-8 input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input class="form-control" v-model="password2" type="password" maxlength="16" placeholder="Password" required>
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Enter again</label>
-                            <div class="col-md-8 input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                <input class="form-control" v-model="password2" type="password" maxlength="16" placeholder="Password" required>
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-5 col-md-5">
+                            <button class="btn btn-success"><span class="glyphicon glyphicon-hand-right"></span> Sign Up</button>
                         </div>
-                        <div class="form-group">
-                            <div class="col-md-offset-5 col-md-5">
-                                <button class="btn btn-success"><span class="glyphicon glyphicon-hand-right"></span> Sign Up</button>
-                            </div>
-                        </div>
-                    </form>
-                 </div>
-             </div>
-         </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
+</div>
 {% endblock %}
 
 {% block script %}

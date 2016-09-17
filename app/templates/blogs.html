@@ -3,15 +3,20 @@
 {% block title %}Blog{% endblock %}
 
 {% block content %}
-    <div class="col-sm-9" id="main">
-    <h4><small>RECENT POSTS </small></h4>
-    {% for blog in blogs %}
-        <h2 class="text-primary">{{ blog.title }}</h2>
-        <h4><small><span class="glyphicon glyphicon-time"></span> Posted by {{ blog.user_name }}, {{ blog.created|datetime }}</small></h4>
-        <!-- will add tags here -->
-        <p>{{ blog.summary }}</p>
-        <p><a href="blog/{{ blog._id }}">Read More <span class="glyphicon glyphicon-chevron-right"></span></a></p>
-        <hr>
-    {% endfor %}
+<div class="container-fluid">
+    <div class="row content">
+        <div class="col-sm-9" id="main">
+            <h4><small>RECENT POSTS </small></h4>
+            {% for blog in blogs %}
+            <h2 class="text-primary">{{ blog.title }}</h2>
+            <h4><small><span class="glyphicon glyphicon-time"></span> Posted by {{ blog.user_name }}, {{ blog.created|datetime }}</small></h4>
+            <p>{{ blog.summary }}</p>
+            <p><a href="blog/{{ blog._id }}">Read More <span class="glyphicon glyphicon-chevron-right"></span></a></p>
+            <hr>
+            {% endfor %}
+        </div>
+        <div class="col-sm-3 sidenav text-center">
+        </div>
     </div>
+</div>
 {% endblock %}

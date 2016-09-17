@@ -7,9 +7,13 @@
 }
 
 /* Set the minimum height and background color of the grid */
-.row.content {
+.row.content, #register, #manage {
     min-height: 500px;
     background-color: #F5FFFA;
+}
+
+a:hover {
+    text-decoration: none;
 }
 
 #main {
@@ -34,7 +38,6 @@ footer {
 /* Set footer hyperlink hover color, with no text-decoration */
 footer a:hover {
     color: #73AD21;
-    text-decoration: none;
 }
 
 /* On small screens, set height to 'auto' for sidenav and grid */

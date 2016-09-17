@@ -33,15 +33,15 @@
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             {% if g.__user__.admin %}
-                            <li><a href="/manage/blogs/newblog"><span class="glyphicon glyphicon-plus"></span> New Blog</a></li>
+                            <li><a href="/manage/blogs/newblog"><span class="glyphicon glyphicon-plus"></span> New blog</a></li>
                             {% endif %}
-                            <li><a href="/signout"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
+                            <li><a href="/signout"><span class="glyphicon glyphicon-log-out"></span> Sign out</a></li>
                         </ul>
                     </li>
                 {% else %}
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <span class="glyphicon glyphicon-user"></span> Log In <span class="caret"></span>
+                            <span class="glyphicon glyphicon-user"></span> Sign in <span class="caret"></span>
                         </a>
                         <ul id="login-dp" class="dropdown-menu">
                             <li>
@@ -65,30 +65,22 @@
                                         </form>
                                     </div>
                                     <div class="bottom text-center">
-                                        <a href="/register"><b>Sign Up Now!</b></a>
+                                        <a href="/register"><b>Sign up now!</b></a>
                                     </div>
                                 </div>
                             </li>
                         </ul>
                     </li>
-                    <li><a href="/register"><span class="glyphicon glyphicon-log-in"></span> Sign Up</a></li>
+                    <li><a href="/register"><span class="glyphicon glyphicon-log-in"></span> Sign up</a></li>
                 {% endif %}
                 </ul>
             </div>
         </div>
     </nav>
-    <div class="container-fluid">
-        <div class="row content">
-            {% block content %}
-            {% endblock %}
-            <div class="col-sm-3 sidenav text-center">
-                {% block sidecontent %}
-                {% endblock %}
-            </div>
-        </div>
-    </div>
+    {% block content %}
+    {% endblock %}
     <footer class="container-fluid text-center">
-        <p>&copy; 2016 Jiayi Li [<a href="/manage/" target="_blank">Manage</a>]</p>
+        <p>&copy; 2016 Jiayi Li [<a href="/manage">Manage</a>]</p>
         <p><a href="http://www.yuijiayi.com">www.yuijiayi.com</a>. All rights reserved.</p>
         <p>Proudly powered by <a target="_blank" href="http://getbootstrap.com">Bootstrap</a> and <a target="_blank" href="http://flask.pocoo.org">Flask</a></p>
     </footer>

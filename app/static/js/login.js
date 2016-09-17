@@ -16,7 +16,7 @@ new Vue({
                 }, 
                 method: "POST"
             }).done(function() {
-                return location.assign('/');
+                return location.assign(location.pathname);
             }).fail(function(xhr) {
                 self.message = xhr.responseText;
                 return $('.alert').show();
