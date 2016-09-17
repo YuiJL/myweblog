@@ -1,0 +1,50 @@
+{% extends '__base__.html' %}
+
+{% block title %}manage/{{ collection }}{% endblock %}
+
+{% block content %}
+<div class="container" id="manage" style="margin-top:20px">
+    <ul class="breadcrumb">
+        <li><a href="/manage/comments">Comments</a></li>
+        <li class="active">Blogs</li>
+        <li><a href="/manage/users">Users</a></li>
+    </ul>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th class="col-sm-5">Title</th>
+                <th class="col-sm-2.5">Username</th>
+                <th class="col-sm-2.5">Created</th>
+                {% if g.__user__.admin %}
+                <th class="col-sm-2">Actions</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="document in collections">
+                <td v-text="document.title"></td>
+                <td v-text="document.user_name"></td>
+                <td v-text="document.created | datetime"></td>
+                {% if g.__user__.admin %}
+                <td class="actions">
+                    <a href="#">
+                        <button class="btn btn-xs btn-primary">
+                            <i class="glyphicon glyphicon-pencil"></i> Edit
+                        </button>
+                    </a>
+                    <a href="/manage/blogs/">
+                        <button class="btn btn-xs btn-danger">
+                            <i class="glyphicon glyphicon-trash"></i> Delete
+                        </button>
+                    </a>
+                </td>
+                {% endif %}
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block script %}
+    <script src="/static/js/manage.js"></script>
+{% endblock %}
