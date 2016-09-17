@@ -5,38 +5,62 @@
 {% block content %}
 <div class="container" id="manage" style="margin-top:20px">
     <ul class="breadcrumb">
+        {% if collection == "comments" %}
+        <li class="active">Comments</li>
+        <li><a href="/manage/blogs">Blogs</a></li>
+        <li><a href="/manage/users">Users</a></li>
+        {% elif collection == "blogs" %}
         <li><a href="/manage/comments">Comments</a></li>
         <li class="active">Blogs</li>
         <li><a href="/manage/users">Users</a></li>
+        {% else %}
+        <li><a href="/manage/comments">Comments</a></li>
+        <li><a href="/manage/blogs">Blogs</a></li>
+        <li class="active">Users</li>
+        {% endif %}
     </ul>
     <table class="table table-hover">
         <thead>
             <tr>
-                <th class="col-sm-5">Title</th>
-                <th class="col-sm-2.5">Username</th>
-                <th class="col-sm-2.5">Created</th>
+                {% if collection == "comments" %}
+                <th class="col-sm-4">Comment</th>
+                {% elif collection == "blogs" %}
+                <th class="col-sm-4">Title</th>
+                {% else %}
+                <th class="col-sm-4">E-mail</th>
+                {% endif %}
+                <th class="col-sm-3">Username</th>
+                <th class="col-sm-3">Created</th>
                 {% if g.__user__.admin %}
-                <th class="col-sm-2">Actions</th>
+                <th class="col-sm-2" v-show="'{{collection}}'!=='users'">Actions</th>
                 {% endif %}
             </tr>
         </thead>
         <tbody>
             <tr v-for="document in collections">
+                {% if collection == "comments" %}
+                <td v-text="document.content | summary"></td>
+                {% elif collection == "blogs" %}
                 <td v-text="document.title"></td>
+                {% else %}
+                <td v-text="document.email"></td>
+                {% endif %}
+                {% if collection == "users" %}
+                <td v-text="document.name"></td>
+                {% else %}
                 <td v-text="document.user_name"></td>
+                {% endif %}
                 <td v-text="document.created | datetime"></td>
                 {% if g.__user__.admin %}
-                <td class="actions">
+                <td class="actions" v-show="'{{collection}}'!=='users'">
                     <a href="#">
                         <button class="btn btn-xs btn-primary">
                             <i class="glyphicon glyphicon-pencil"></i> Edit
                         </button>
                     </a>
-                    <a href="/manage/blogs/">
-                        <button class="btn btn-xs btn-danger">
+                        <button v-on:click="delete(document)" class="btn btn-xs btn-danger">
                             <i class="glyphicon glyphicon-trash"></i> Delete
                         </button>
-                    </a>
                 </td>
                 {% endif %}
             </tr>
