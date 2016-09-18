@@ -1,9 +1,3 @@
-function getParamFromUrl(key) {
-    var re = new RegExp('(\\?|&)' + key + '=(.*?)(&|$)');
-    var result = location.search.match(re);
-    return result && decodeURIComponent(result[2]);
-}
-
 new Vue({
     el: '#blog',
     data: {
@@ -18,10 +12,12 @@ new Vue({
     ready: function() {
         var self = this;
         if (location.pathname.split('/').pop() === 'edit') {
-            var id = getParamFromUrl('id');
+            var id = location.search.split('?id=').pop();
             self.url = self.url + '/' + id;
-            $.getJSON('/api/blogs' + id, function(blog) {
+            $.getJSON('/api/blogs/' + id, function(blog) {
                 self.blog = blog;
+                var a = self.blog.tag;
+                self.blog.tag = a.join(' ');
             });
         }
     },

@@ -12,6 +12,9 @@ new Vue({
         password2: '',
         message: ''
     },
+    ready: function() {
+        $("#navbarleft li:first-child").removeClass("active");
+    },
     methods: {
         register: function() {
             this.email = this.email.trim();

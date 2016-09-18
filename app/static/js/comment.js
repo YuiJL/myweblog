@@ -1,9 +1,10 @@
 new Vue({
-    el: '#main',
+    el: '#control',
     data: {
         id: location.pathname.split('/').pop(),
         comment: '',
-        comments: []
+        comments: [],
+        path: '',
     },
     filters: {
         datetime: function(value) {
@@ -20,6 +21,10 @@ new Vue({
         $.getJSON('/api/blogs/' + self.id + '/comments', function(data) {
             self.comments = data.comments;
         });
+        $(".row.content").mousedown(function() {
+            $("#replybox").slideUp("fast");
+        });
+        $("#navbarleft li:first-child").removeClass("active");
     },
     methods: {
         submit: function() {
@@ -29,6 +34,18 @@ new Vue({
                 method: "POST"
             }).done(function(data) {
                 self.comment = '';
+                self.comments = data.comments;
+            });
+        },
+        subsubmit: function() {
+            var self = this;
+            $('#replybox').slideUp('fast');
+            self.path = $('#replybox textarea').attr('name');
+            $.ajax('/api/blogs/' + self.id + '/comments/' + self.path, {
+                data: {content: self.subcomment},
+                method: "POST"
+            }).done(function(data) {
+                self.subcomment = '';
                 self.comments = data.comments;
             });
         }

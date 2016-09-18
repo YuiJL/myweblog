@@ -11,7 +11,11 @@ new Vue({
             return dateString[1] + ' ' + dateString[2] + ', ' + dateString[3] + ', ' + dateString[4] + ' ' + dateString[6];
         },
         summary: function(value) {
-            return value.toString().substr(0, 40) + '...';
+            var omit = '';
+            if (value.length > 40) {
+                omit = '...';
+            }
+            return value.toString().substr(0, 40) + omit;
         }
     },
     ready: function() {
@@ -19,6 +23,8 @@ new Vue({
         $.getJSON('/api/' + self.collection, function(data) {
             self.collections = data[self.collection];
         });
+        $("#navbarleft li:first-child").removeClass("active");
+        $("#navbarleft li:nth-child(2)").addClass("active");
     },
     methods: {
         delete: function(item) {
