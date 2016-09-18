@@ -12,6 +12,10 @@
     background-color: #F5FFFA;
 }
 
+#manage {
+    padding: 2% 6%;
+}
+
 a:hover {
     text-decoration: none;
 }
@@ -48,7 +52,7 @@ footer a:hover {
     }
     #login-dp .bottom {
         background-color: inherit;
-        border-top: 0 none;
+        border-top: 0;
     }
 }
 
@@ -80,4 +84,37 @@ footer a:hover {
 
 #signupform .alert {
     padding: 10px;
+}
+
+#replybody:hover #replybutton {
+    display: block;
+}
+
+#replybody .text-primary:after {
+    content: 'author';
+    background: #00CED1;
+    color: #FFF;
+    font-size: 11px;
+    padding: 1px 2px 2px 2px;
+    font-weight: 700;
+    margin-left: 5px;
+    border-radius: 3px;
+}
+
+#replybutton {
+    float: right;
+    font-size: 90%;
+    position: relative;
+    bottom: 10px;
+    cursor: pointer;
+    display: none;
+}
+
+#replybox {
+    position: fixed;
+    bottom: 0;
+    left: 25%;
+    width: 50%;
+    height: 120px;
+    margin: auto;
 }
