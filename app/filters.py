@@ -8,7 +8,7 @@ from datetime import datetime
 
 def datetime_filter(t):
     delta = int(time.time() - t)
-    if delta == 1:
+    if delta <= 1:
         return u'a second ago'
     if delta < 60:
         return u'%s seconds ago' % delta

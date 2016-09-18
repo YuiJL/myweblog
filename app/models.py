@@ -45,6 +45,7 @@ class Comment(object):
     
     def __init__(self, **kw):
         self.blog_id = kw.get('blog_id')
+        self.blog_author = kw.get('blog_author')
         self.user_id = kw.get('user_id')
         self.user_name = kw.get('user_name')
         self.user_image = kw.get('user_image')

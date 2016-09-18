@@ -26,7 +26,7 @@ def index():
     
     '''homepage'''
     
-    return render_template('blogs.html', blogs=db.blogs.find())
+    return render_template('blogs.html', blogs=db.blogs.find().sort("created", -1))
 
 
 @route.route('/blog/<blog_id>')
@@ -141,7 +141,7 @@ def api_get_all(collection):
         abort(400)
     cursor = db[collection]
     a = []
-    for document in cursor.find():
+    for document in cursor.find().sort("created", -1):
         if collection == 'users':
             document.update(password='******')
         document.update(_id=str(document['_id']))
@@ -173,7 +173,7 @@ def api_get_blog_comments(blog_id):
     '''
     
     comments = []
-    for comment in db.comments.find({'blog_id':blog_id}).sort("created", -1):
+    for comment in db.comments.find({'blog_id':blog_id}).sort("created"):
         comment.update(_id=str(comment['_id']))
         comments.append(comment)
     return jsonify(comments=comments)
@@ -243,15 +243,17 @@ def api_post_and_get_comment(blog_id):
     if not content:
         return make_response('Content cannot be empty.')
     # create a new Comment and save it to mongodb
+    blog = db.blogs.find_one({'_id': ObjectId(blog_id)})
     comment = Comment(
         blog_id = blog_id,
+        blog_author = blog.get('user_name'),
         user_id = g.__user__.get('_id'),
         user_name = g.__user__.get('name'),
         user_image = g.__user__.get('image'),
         content = content
     )
     comments = []
-    for document in db.comments.find({'blog_id':blog_id}).sort("created", -1):
+    for document in db.comments.find({'blog_id':blog_id}).sort("created"):
         document.update(_id=str(document['_id']))
         comments.append(document)
     return jsonify(comments=comments)
@@ -268,7 +270,7 @@ def api_pose_subcomment(blog_id, comment_id):
         return make_response('Please login', 403)
     content = request.form.get('content').lstrip('\n').rstrip()
     if not content:
-        return make_response('Content cannot be empty')
+        return make_response('Content cannot be empty', 403)
     comment = db.comments.find_one({'_id': ObjectId(comment_id)})
     db.comments.update_one(
         {'_id': ObjectId(comment_id)},
@@ -284,7 +286,11 @@ def api_pose_subcomment(blog_id, comment_id):
                 }
             }
         })
-    return jsonify(comment_id=comment_id)
+    comments = []
+    for document in db.comments.find({'blog_id':blog_id}).sort("created"):
+        document.update(_id=str(document['_id']))
+        comments.append(document)
+    return jsonify(comments=comments)
     
     
 @route.route('/api/<collection>/<item_id>/delete', methods=['POST'])
