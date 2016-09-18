@@ -1,9 +1,9 @@
 {% extends '__base__.html' %}
 
-{% block title %}manage/{{ collection }}{% endblock %}
+{% block title %}Manage - {{ collection }}{% endblock %}
 
 {% block content %}
-<div class="container" id="manage" style="margin-top:20px">
+<div class="container-fluid" id="manage">
     <ul class="breadcrumb">
         {% if collection == "comments" %}
         <li class="active">Comments</li>
@@ -41,7 +41,7 @@
                 {% if collection == "comments" %}
                 <td v-text="document.content | summary"></td>
                 {% elif collection == "blogs" %}
-                <td v-text="document.title"></td>
+                <td><a :href="'/blog/'+document._id" v-text="document.title"></a></td>
                 {% else %}
                 <td v-text="document.email"></td>
                 {% endif %}
@@ -53,7 +53,7 @@
                 <td v-text="document.created | datetime"></td>
                 {% if g.__user__.admin %}
                 <td class="actions" v-show="'{{collection}}'!=='users'">
-                    <a href="#">
+                    <a :href="'/manage/blogs/edit?id='+document._id" v-show="'{{collection}}'==='blogs'">
                         <button class="btn btn-xs btn-primary">
                             <i class="glyphicon glyphicon-pencil"></i> Edit
                         </button>

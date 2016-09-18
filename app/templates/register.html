@@ -7,13 +7,13 @@
     <div id="signupbox" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <div class="panel-title text-center"><strong>Create An Account</strong></div>
+                <div class="panel-title text-center"><strong>Create an account</strong></div>
             </div>
-            <div class="panel-body">
+            <div class="panel-body" style="padding-top:5%">
                 <form id="signupform" v-on:submit.prevent="register" class="form-horizontal">
                     <div class="alert alert-danger" hidden>
                         <a class="close" onclick="$('.alert').fadeOut('fast')">&times;</a>
-                        <span class="glyphicon glyphicon-info-sign"></span>
+                        <i class="glyphicon glyphicon-info-sign"></i>
                         <span v-text="message"></span>
                     </div>
                     <div class="form-group">
@@ -46,7 +46,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-offset-5 col-md-5">
-                            <button class="btn btn-success"><span class="glyphicon glyphicon-hand-right"></span> Sign Up</button>
+                            <button class="btn btn-success"><i class="glyphicon glyphicon-hand-right"></i> Sign up</button>
                         </div>
                     </div>
                 </form>
