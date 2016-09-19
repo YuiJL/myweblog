@@ -14,6 +14,9 @@ new Vue({
         },
         count: function(data) {
             return data.length;
+        },
+        index: function(value, length) {
+            return "#" + (length - parseInt(value)).toString();
         }
     },
     ready: function() {

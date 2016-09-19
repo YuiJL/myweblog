@@ -101,6 +101,10 @@ footer a:hover {
     border-radius: 3px;
 }
 
+#replybody h4 {
+    display: inline-block;
+}
+
 #replybutton {
     float: right;
     font-size: 90%;
@@ -110,6 +114,10 @@ footer a:hover {
     display: none;
 }
 
+#replybutton abbr {
+    border-bottom: none;
+}
+
 #replybox {
     position: fixed;
     bottom: 0;
@@ -117,4 +125,12 @@ footer a:hover {
     width: 50%;
     height: 120px;
     margin: auto;
+}
+
+#replybox div {
+    margin: 5px;
+}
+
+#replybox button {
+    float: right;
 }

@@ -9,7 +9,7 @@
             <h2 class="text-primary">{{ blog.title }}</h2>
             <h4><small><span class="glyphicon glyphicon-time"></span> Posted by {{ blog.user_name }}, {{ blog.created|datetime }}
                 {% if blog.last_modified %}/ Last modified, {{ blog.modified|datetime }} {% endif %}</small></h4>
-            <p>{{ blog.content }}</p>
+            <p style="margin-top:20px">{{ blog.content|markdown|safe }}</p>
             <hr>
             {% if g.__user__ %}
             <h4>Leave a Comment:</h4>
@@ -23,39 +23,42 @@
             </form>
             <br><br>
             {% else %}
-            <h4>Please sign in</h4>
+            <h4 class="text-info" style="margin-bottom:3%">Please sign in on right top to write a comment...</h4>
             {% endif %}
     
-            <h4><span class="badge" v-text="comments | count"></span> Comments:</h4><br>
+            <h4><span class="badge" v-text="comments | count"></span> Comments</h4><br>
             <div class="row" id="replyarea" v-for="item in comments" track-by="_id">
                 <div class="col-sm-2 text-center">
                     <img :src="item.user_image" class="img-circle" height="75" width="75" alt="Avatar" />
                 </div>
                 <div class="col-sm-10" id="replybody">
-                    <h4 v-if="item.user_name===item.blog_author" class="text-primary" style="display:inline-block" v-text="item.user_name"></h4>
-                    <h4 v-else style="display:inline-block" v-text="item.user_name"></h4>
-                    <h4 style="display:inline-block"></h4>
-                    <h4 style="display:inline-block"><small v-text="item.created | datetime"></small></h4>
+                    <h4 v-if="item.user_name===item.blog_author" class="text-primary" v-text="item.user_name"></h4>
+                    <h4 v-else class="text-info" v-text="item.user_name"></h4><h4></h4>
+                    <h4><small v-text="item.created | datetime"></small></h4>
+                    <h4 style="float:right" class="text-muted" v-text="$index | index comments.length"></h4>
                     <p style="overflow-x:scroll;font-size:16px" v-html="item.content"></p>
                     <br v-if="item.subcomment">
-                    <p v-if="item.subcomment"><span class="badge" v-text="item.subcontent | count"></span> Comments:</p><br>
+                    <p v-if="item.subcomment"><span class="badge" v-text="item.subcontent | count"></span> Comments</p><br>
                     <div class="row" id="subbox" v-if="item.subcomment" v-for="comment in item.subcontent">
                         <div class="col-sm-2 text-center">
                             <img :src="comment.user_image" class="img-circle" height="60" width="60" alt="Avatar" />
                         </div>
                         <div class="col-sm-10" id="replybody">
-                            <h4 v-if="comment.user_name===item.blog_author" class="text-primary" style="display:inline-block" v-text="comment.user_name"></h4>
-                            <h4 v-else style="display:inline-block" v-text="comment.user_name"></h4>
-                            <h4 style="display:inline-block"></h4>
-                            <h4 style="display:inline-block"><small v-text="comment.created | datetime"></small></h4>
+                            <h4 v-if="comment.user_name===item.blog_author" class="text-primary" v-text="comment.user_name"></h4>
+                            <h4 v-else class="text-info" v-text="comment.user_name"></h4><h4></h4>
+                            <h4><small v-text="comment.created | datetime"></small></h4>
                             <p style="overflow-x:scroll" v-html="comment.content"></p>
                             <br>
                         </div>
                     </div>
-                    <p :id="item._id" hidden></p>
+                    <p :id="item._id" :name="$index | index comments.length" hidden></p>
                     {% if g.__user__ %}
-                    <a onclick="$('#replybox').slideToggle('fast'); $('#replybox textarea').attr('name', $(this).prev().attr('id'))" id="replybutton">
+                    <a onclick="$('#replybox').slideToggle('fast'); $('#replybox textarea').attr('name', $(this).prev().attr('id')); $('#replybox textarea').attr('placeholder', 'Write a reply to ' + $(this).prev().attr('name'))" id="replybutton">
                         <i class="glyphicon glyphicon-share-alt"></i> Reply
+                    </a>
+                    {% else %}
+                    <a id="replybutton" class="text-muted">
+                        <abbr title="Please sign in first"><i class="glyphicon glyphicon-share-alt"></i> Reply</abbr>
                     </a>
                     {% endif %}
                     <hr>
@@ -67,7 +70,7 @@
     </div>
     <form class="form" id="replybox" v-on:submit.prevent="subsubmit" hidden>
         <div class="form-group">
-            <textarea class="form-control" rows="1" v-model="subcomment" placeholder="Write a reply..." required></textarea>
+            <textarea class="form-control" rows="3" v-model="subcomment" required></textarea>
         </div>
         <div class="form-group">
             <button class="btn btn-primary btn-xs">Submit</button>

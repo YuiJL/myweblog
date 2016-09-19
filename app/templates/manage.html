@@ -29,7 +29,11 @@
                 {% else %}
                 <th class="col-sm-4">E-mail</th>
                 {% endif %}
+                {% if collection == "blogs" %}
+                <th class="col-sm-3">Author</th>
+                {% else %}
                 <th class="col-sm-3">Username</th>
+                {% endif %}
                 <th class="col-sm-3">Created</th>
                 {% if g.__user__.admin %}
                 <th class="col-sm-2" v-show="'{{collection}}'!=='users'">Actions</th>

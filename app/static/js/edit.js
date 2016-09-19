@@ -20,6 +20,7 @@ new Vue({
                 self.blog.tag = a.join(' ');
             });
         }
+        $("#navbarleft li:first-child").removeClass("active");
     },
     methods: {
         submit: function() {

@@ -11,7 +11,7 @@
             <h2 class="text-primary">{{ blog.title }}</h2>
             <h4><small><span class="glyphicon glyphicon-time"></span> Posted by {{ blog.user_name }}, {{ blog.created|datetime }}
                 {% if blog.last_modified %}/ Last modified, {{ blog.modified|datetime }} {% endif %}</small></h4>
-            <p>{{ blog.summary }}</p>
+            <p>{{ blog.summary|markdown|safe }}</p>
             <p><a href="blog/{{ blog._id }}">Read More <span class="glyphicon glyphicon-chevron-right"></span></a></p>
             <hr>
             {% endfor %}
