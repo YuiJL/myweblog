@@ -10,6 +10,7 @@ from flask import request, redirect, url_for, render_template, jsonify, abort, B
 
 from app import db
 from app.models import User, Blog, Comment
+from app.filters import markdown_filter
 from app.utilities import userToCookie, validPassword, loginResponse, signOutResponse
 
 route = Blueprint('route', __name__)
@@ -173,8 +174,12 @@ def api_get_blog_comments(blog_id):
     '''
     
     comments = []
-    for comment in db.comments.find({'blog_id':blog_id}).sort("created"):
+    for comment in db.comments.find({'blog_id':blog_id}).sort("created", -1):
         comment.update(_id=str(comment['_id']))
+        comment.update(content=markdown_filter(comment['content']))
+        if comment.get('subcomment'):
+            for subcomment in comment.get('subcontent'):
+                subcomment.update(content=markdown_filter(subcomment['content']))
         comments.append(comment)
     return jsonify(comments=comments)
 
@@ -253,8 +258,12 @@ def api_post_and_get_comment(blog_id):
         content = content
     )
     comments = []
-    for document in db.comments.find({'blog_id':blog_id}).sort("created"):
+    for document in db.comments.find({'blog_id':blog_id}).sort("created", -1):
         document.update(_id=str(document['_id']))
+        document.update(content=markdown_filter(document['content']))
+        if document.get('subcomment'):
+            for subcomment in document.get('subcontent'):
+                subcomment.update(content=markdown_filter(subcomment['content']))
         comments.append(document)
     return jsonify(comments=comments)
 
@@ -287,9 +296,13 @@ def api_pose_subcomment(blog_id, comment_id):
             }
         })
     comments = []
-    for document in db.comments.find({'blog_id':blog_id}).sort("created"):
+    for document in db.comments.find({'blog_id':blog_id}).sort("created", -1):
         document.update(_id=str(document['_id']))
-        comments.append(document)
+        document.update(content=markdown_filter(document['content']))
+        if document.get('subcomment'):
+            for subcomment in document.get('subcontent'):
+                subcomment.update(content=markdown_filter(subcomment['content']))
+            comments.append(document)
     return jsonify(comments=comments)
     
     
