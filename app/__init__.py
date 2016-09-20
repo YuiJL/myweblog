@@ -3,11 +3,16 @@
 
 __author__ = 'Jiayi Li'
 
+import os
+
 from flask import Flask, request, g
+
 from pymongo import MongoClient
 
 from app.filters import datetime_filter, markdown_filter
 
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+UPLOAD_FOLDER = os.path.join(APP_ROOT, 'static/img')
 COOKIE_NAME = "YuiSession"
 
 client = MongoClient()
@@ -31,6 +36,8 @@ def create_app():
     
     # create this flask app
     app = Flask(__name__)
+    app.secret_key = 'super secret key'
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     # add filters
     app.jinja_env.filters.update(datetime=datetime_filter, markdown=markdown_filter)
     # add before request functions

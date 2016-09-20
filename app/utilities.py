@@ -5,6 +5,7 @@ __author__ = 'Jiayi Li'
 
 COOKIE_NAME = "YuiSession"
 SECRET_KEY = "YuiJLWebLog"
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif', 'bmp'])
 
 import time, hashlib, json
 from bson.objectid import ObjectId
@@ -54,6 +55,10 @@ def validPassword(user, password):
     sha1.update(user['email'].encode('utf-8'))
     sha1.update(b'the-Salt')
     return sha1.hexdigest() == user['password']
+
+
+def allowedFile(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
 def loginResponse(response, cookie, max_age=86400):

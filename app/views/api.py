@@ -3,18 +3,21 @@
 
 __author__ = 'Jiayi Li'
 
-import time
+import time, os
 
 from bson.objectid import ObjectId
-from flask import request, redirect, url_for, jsonify, abort, Blueprint, make_response, g
+from werkzeug.utils import secure_filename
+from flask import request, redirect, url_for, jsonify, abort, Blueprint, make_response, g, flash, current_app
 
 from app import db
 from app.models import User, Blog, Comment
 from app.filters import markdown_filter
+from app.utilities import allowedFile, cookieToUser
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
 APIS = ('blogs', 'users', 'comments')
+COOKIE_NAME = "YuiSession"
 
 
 #************************************
@@ -242,3 +245,24 @@ def api_delete_subcomment(comment_id, own_id):
             })
     blog_id = db.comments.find_one({'_id': ObjectId(comment_id)}).get('blog_id')
     return redirect(url_for('api.api_get_blog_comments', blog_id=blog_id))
+
+@api.route('/image/<user_id>', methods=['POST'])
+def api_upload(user_id):
+    if 'file' not in request.files:
+        flash('No file part')
+        return redirect(request.referrer)
+    file = request.files['file']
+    if file.filename == '':
+        flash('No selected file')
+        return redirect(request.referrer)
+    if file and allowedFile(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+        db.users.update_one(
+            {'_id': ObjectId(user_id)},
+            {
+                '$set': {'image': '/static/img/' + filename}
+            })
+    else:
+        flash('File not allowed')
+    return redirect(request.referrer)
