@@ -15,6 +15,7 @@ db = client.test
 
 from app.utilities import cookieToUser
 from app.views.route import route
+from app.views.api import api
 
 def loginStatus():
     
@@ -25,8 +26,16 @@ def loginStatus():
 
     
 def create_app():
+    
+    '''create this application'''
+    
+    # create this flask app
     app = Flask(__name__)
+    # add filters
     app.jinja_env.filters.update(datetime=datetime_filter, markdown=markdown_filter)
+    # add before request functions
     app.before_request(loginStatus)
+    # register routes
     app.register_blueprint(route)
+    app.register_blueprint(api)
     return app
