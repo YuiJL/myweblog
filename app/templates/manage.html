@@ -19,52 +19,88 @@
         <li class="active">Users</li>
         {% endif %}
     </ul>
-    <table class="table table-hover">
+    <table class="table table-hover" id="maintable">
         <thead>
             <tr>
                 {% if collection == "comments" %}
-                <th class="col-sm-4">Comment</th>
+                <th class="col-sm-3">Comment</th>
+                <th class="col-sm-2">Username</th>
+                <th class="col-sm-3">Blog</th>
+                <th class="col-sm-3">Created</th>
                 {% elif collection == "blogs" %}
                 <th class="col-sm-4">Title</th>
-                {% else %}
-                <th class="col-sm-4">E-mail</th>
-                {% endif %}
-                {% if collection == "blogs" %}
                 <th class="col-sm-3">Author</th>
-                {% else %}
-                <th class="col-sm-3">Username</th>
-                {% endif %}
                 <th class="col-sm-3">Created</th>
+                {% else %}
+                <th class="col-sm-4">Username</th>
+                <th class="col-sm-4">E-mail</th>
+                <th class="col-sm-4">Created</th>
+                {% endif %}
                 {% if g.__user__.admin %}
-                <th class="col-sm-2" v-show="'{{collection}}'!=='users'">Actions</th>
+                <th class="col-sm-1" v-show="'{{collection}}'==='comments'">Actions</th>
+                <th class="col-sm-2" v-show="'{{collection}}'==='blogs'">Actions</th>
                 {% endif %}
             </tr>
         </thead>
         <tbody>
             <tr v-for="document in collections">
                 {% if collection == "comments" %}
-                <td v-text="document.content | summary"></td>
-                {% elif collection == "blogs" %}
-                <td><a :href="'/blog/'+document._id" v-text="document.title"></a></td>
-                {% else %}
-                <td v-text="document.email"></td>
-                {% endif %}
-                {% if collection == "users" %}
-                <td v-text="document.name"></td>
-                {% else %}
+                <td v-if="document.subcomment" id="firstcol">
+                    <span v-text="document.content | summary 30"></span>
+                    <p v-bind:id="document._id" hidden></p>
+                    <button class="btn btn-xs btn-info" v-on:click="show(document._id)">
+                        <i class="glyphicon glyphicon-list"></i>
+                    </button>
+                </td>
+                <td v-else v-text="document.content | summary 36"></td>
                 <td v-text="document.user_name"></td>
+                <td v-text="document.blog_title | summary 34"></td>
+                {% elif collection == "blogs" %}
+                <td><a v-bind:href="'/blog/'+document._id" v-text="document.title | summary 40"></a></td>
+                <td v-text="document.user_name"></td>
+                {% else %}
+                <td v-text="document.name"></td>
+                <td v-text="document.email"></td>
                 {% endif %}
                 <td v-text="document.created | datetime"></td>
                 {% if g.__user__.admin %}
-                <td class="actions" v-show="'{{collection}}'!=='users'">
-                    <a :href="'/manage/blogs/edit?id='+document._id" v-show="'{{collection}}'==='blogs'">
+                <td v-show="'{{collection}}'!=='users'">
+                    <a v-bind:href="'/manage/blogs/edit?id='+document._id" v-show="'{{collection}}'==='blogs'">
                         <button class="btn btn-xs btn-primary">
                             <i class="glyphicon glyphicon-pencil"></i> Edit
                         </button>
                     </a>
-                        <button v-on:click="delete(document)" class="btn btn-xs btn-danger">
-                            <i class="glyphicon glyphicon-trash"></i> Delete
-                        </button>
+                    <button v-on:click="delete(document)" class="btn btn-xs btn-danger">
+                        <i class="glyphicon glyphicon-trash"></i> Delete
+                    </button>
+                </td>
+                {% endif %}
+            </tr>
+        </tbody>
+    </table>
+    <table class="table" id="subtable" hidden>
+        <thead>
+            <tr>
+                <th class="col-sm-3">Reply</th>
+                <th class="col-sm-2">Username</th>
+                <th class="col-sm-3">From</th>
+                <th class="col-sm-3">Created</th>
+                {% if g.__user__.admin %}
+                <th class="col-sm-1">Actions</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="item in comment.subcontent">
+                <td v-text="item.content | summary 36"></td>
+                <td v-text="item.user_name"></td>
+                <td v-text="comment.content | summary 36"></td>
+                <td v-text="item.created | datetime"></td>
+                {% if g.__user__.admin %}
+                <td>
+                    <button v-on:click="delete_one(comment, item)" class="btn btn-xs btn-warning">
+                        <i class="glyphicon glyphicon-trash"></i> Delete
+                    </button>
                 </td>
                 {% endif %}
             </tr>

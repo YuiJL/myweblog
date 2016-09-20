@@ -86,8 +86,34 @@ footer a:hover {
     padding: 10px;
 }
 
-#replybody:hover #replybutton {
-    display: block;
+.breadcrumb {
+    background-color: #FFF5EE;
+}
+
+#firstcol button {
+    float: right;
+    margin-right: 5%;
+}
+
+#subtable {
+    position: fixed;
+    bottom: 50%;
+    width: 80%;
+    left: 10%;
+    margin: auto;
+    background-color: #FFFACD;
+    font-size: 90%;
+    border-radius: 10px 20px;
+}
+
+#subcomment {
+    background-color: #F0F8FF;
+    font-size: 90%;
+}
+
+#subcomment td:first-child {
+    float: left;
+    margin-left: 5%;
 }
 
 #replybody .text-primary:after {
@@ -105,13 +131,26 @@ footer a:hover {
     display: inline-block;
 }
 
-#replybutton {
+#replybutton, #deletebutton {
     float: right;
     font-size: 90%;
-    position: relative;
+    padding-left: 10px;
     bottom: 10px;
     cursor: pointer;
     display: none;
+}
+
+#replydeletebutton {
+    cursor: pointer;
+    color: #D9534F;
+}
+
+#replybody:hover #replybutton {
+    display: inline-block;
+}
+
+#replybody:hover #deletebutton {
+    display: inline-block;
 }
 
 #replybutton abbr {

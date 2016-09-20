@@ -51,6 +51,22 @@ new Vue({
                 self.subcomment = '';
                 self.comments = data.comments;
             });
+        },
+        delete: function(item) {
+            var self = this;
+            $.ajax('/api/comments/' + item._id + '/delete', {
+                method: "POST"
+            }).done(function(data) {
+                self.comments = data.comments;
+            });
+        },
+        delete_one: function(item, comment) {
+            var self = this;
+            $.ajax('/api/comments/' + item._id + '/delete/' + comment._id, {
+                method: "POST"
+            }).done(function(data) {
+                self.comments = data.comments;
+            });
         }
     }
 });
