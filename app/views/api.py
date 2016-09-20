@@ -246,8 +246,14 @@ def api_delete_subcomment(comment_id, own_id):
     blog_id = db.comments.find_one({'_id': ObjectId(comment_id)}).get('blog_id')
     return redirect(url_for('api.api_get_blog_comments', blog_id=blog_id))
 
+
 @api.route('/image/<user_id>', methods=['POST'])
 def api_upload(user_id):
+    
+    '''
+    upload image files for user avatar
+    '''
+    
     if 'file' not in request.files:
         flash('No file part')
         return redirect(request.referrer)
@@ -258,11 +264,44 @@ def api_upload(user_id):
     if file and allowedFile(file.filename):
         filename = secure_filename(file.filename)
         file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+        
+        # update users
         db.users.update_one(
             {'_id': ObjectId(user_id)},
             {
                 '$set': {'image': '/static/img/' + filename}
             })
+        
+        # update blogs
+        db.blogs.update_many(
+            {'user_id': user_id},
+            {
+                '$set': {'user_image': '/static/img/' + filename}
+            })
+        
+        # update comments
+        db.comments.update_many(
+            {'user_id': user_id},
+            {
+                '$set': {'user_image': '/static/img/' + filename}
+            })
+        
+        # update subcomments in comments
+        for comment in db.comments.find():
+            if comment.get('subcomment'):
+                for subcomment in comment['subcontent']:
+                    # find one match and update one
+                    if user_id in subcomment.values():
+                        db.comments.update_one(
+                            {
+                                '_id': comment['_id'],
+                                'subcontent': {'$elemMatch': {'_id': subcomment['_id']}}
+                            },
+                            {
+                                '$set': {
+                                    'subcontent.$.user_image': '/static/img/' + filename
+                                }
+                            })
     else:
         flash('File not allowed')
     return redirect(request.referrer)
