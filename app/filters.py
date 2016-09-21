@@ -46,9 +46,16 @@ class HighlightRenderer(mistune.Renderer):
     '''
     
     def block_code(self, code, lang):
-        if not lang or 'python3':
-            return '\n<pre><code>%s</code></pre>\n' % mistune.escape(code)
-        lexer = get_lexer_by_name(lang or 'python3', stripall=True)
+        guess = 'python3'
+        
+        if code.lstrip().startswith('#include'):
+            guess = 'c++'
+        elif code.lstrip().startswith('<'):
+            guess = 'html'
+        elif code.lstrip().startswith(('function', 'var', '$')):
+            guess = 'javascript'
+            
+        lexer = get_lexer_by_name(lang or guess, stripall=True)
         formatter = HtmlFormatter()
         return highlight(code, lexer, formatter)
     
