@@ -1,4 +1,4 @@
-/* Remove the navbar's default margin-bottom and rounded borders */
+/* css for __base__.html */
 .navbar {
     font-family: 'Ubuntu', sans-serif;
     background-color: #2d2d30;
@@ -6,54 +6,17 @@
     border-radius: 0;
 }
 
-/* Set the minimum height and background color of the grid */
-.row.content, #register, #manage {
-    min-height: 500px;
-    background-color: #F5FFFA;
+#change {
+    cursor: pointer;
 }
 
-#manage {
-    padding: 2% 6%;
-}
-
-a:hover {
-    text-decoration: none;
-}
-
-#main {
-    padding-left: 15%;
-}
-
-.sidenav {
-    padding-top: 20px;
-}
-
-.well {
-    margin: 5% 10%;
-}
-
-/* Set black background color, white text and some padding */
-footer {
-    background-color: #555;
-    color: white;
-    padding-top: 15px;
-}
-
-/* Set footer hyperlink hover color, with no text-decoration */
-footer a:hover {
-    color: #73AD21;
-}
-
-/* On small screens, set height to 'auto' for sidenav and grid */
-@media screen and (max-width: 767px) {
-    #login-dp {
-        background-color: inherit;
-        color: #fff;
-    }
-    #login-dp .bottom {
-        background-color: inherit;
-        border-top: 0;
-    }
+#upload {
+    position: fixed;
+    bottom: 0;
+    margin: auto;
+    left: 25%;
+    width: 50%;
+    background-color: grey;
 }
 
 #login-dp {
@@ -78,12 +41,140 @@ footer a:hover {
     margin-bottom: 10px;
 }
 
-#signupbox {
-    margin-top: 50px;
+footer {
+    background-color: #555;
+    color: white;
+    padding-top: 15px;
 }
 
-#signupform .alert {
-    padding: 10px;
+footer a:hover {
+    color: #73AD21;
+}
+
+@media screen and (max-width: 767px) {
+    #login-dp {
+        background-color: inherit;
+        color: #fff;
+    }
+    #login-dp .bottom {
+        background-color: inherit;
+        border-top: 0;
+    }
+}
+
+
+/* general */
+a:hover {
+    text-decoration: none;
+}
+
+.row.content, #register, #manage {
+    min-height: 500px;
+    background-color: #F5FFFA;
+}
+
+.sidenav {
+    padding-top: 20px;
+}
+
+.col-sm-3.sidenav.text-center img {
+    width: 180px;
+}
+
+#control, #blogs {
+    margin: 10px 0 20px 0;
+}
+
+#main {
+    padding-left: 15%;
+}
+
+
+/* css for blog.html */
+.col-sm-2.text-center img {
+    width: 75px;
+    height: 75px;
+}
+
+#replybody .text-primary:after {
+    content: 'author';
+    background: #00CED1;
+    color: #FFF;
+    font-size: 11px;
+    padding: 1px 2px 2px 2px;
+    font-weight: 700;
+    margin-left: 5px;
+    border-radius: 3px;
+}
+
+#replybody h4 {
+    display: inline-block;
+}
+
+#replybody > p:first-child {
+    overflow-x: scroll;
+    font-size: 16px;
+}
+
+#replybody:hover #replybutton {
+    display: inline-block;
+}
+
+#replybody:hover #deletebutton {
+    display: inline-block;
+}
+
+#subbox img {
+    width: 60px;
+    height: 60px;
+}
+
+#replydeletebutton {
+    float: right;
+    cursor: pointer;
+    color: #D9534F;
+}
+
+#replybutton, #deletebutton {
+    float: right;
+    font-size: 90%;
+    padding-left: 10px;
+    bottom: 10px;
+    cursor: pointer;
+    display: none;
+}
+
+#replybutton abbr {
+    border-bottom: none;
+}
+
+#replybox {
+    position: fixed;
+    bottom: 0;
+    left: 25%;
+    width: 50%;
+    height: 120px;
+    margin: auto;
+}
+
+#replybox div {
+    margin: 5px;
+}
+
+#replybox button {
+    float: right;
+}
+
+
+/* css for edit.html */
+#edit {
+    margin-top: 20px;
+}
+
+
+/* css for manage.html */
+#manage {
+    padding: 2% 6%;
 }
 
 .breadcrumb {
@@ -106,70 +197,12 @@ footer a:hover {
     border-radius: 10px 20px;
 }
 
-#subcomment {
-    background-color: #F0F8FF;
-    font-size: 90%;
+
+/* css for register.html */
+#signupbox {
+    margin-top: 50px;
 }
 
-#subcomment td:first-child {
-    float: left;
-    margin-left: 5%;
-}
-
-#replybody .text-primary:after {
-    content: 'author';
-    background: #00CED1;
-    color: #FFF;
-    font-size: 11px;
-    padding: 1px 2px 2px 2px;
-    font-weight: 700;
-    margin-left: 5px;
-    border-radius: 3px;
-}
-
-#replybody h4 {
-    display: inline-block;
-}
-
-#replybutton, #deletebutton {
-    float: right;
-    font-size: 90%;
-    padding-left: 10px;
-    bottom: 10px;
-    cursor: pointer;
-    display: none;
-}
-
-#replydeletebutton {
-    cursor: pointer;
-    color: #D9534F;
-}
-
-#replybody:hover #replybutton {
-    display: inline-block;
-}
-
-#replybody:hover #deletebutton {
-    display: inline-block;
-}
-
-#replybutton abbr {
-    border-bottom: none;
-}
-
-#replybox {
-    position: fixed;
-    bottom: 0;
-    left: 25%;
-    width: 50%;
-    height: 120px;
-    margin: auto;
-}
-
-#replybox div {
-    margin: 5px;
-}
-
-#replybox button {
-    float: right;
+#signupform .alert {
+    padding: 10px;
 }

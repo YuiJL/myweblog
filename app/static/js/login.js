@@ -1,3 +1,12 @@
+$(document).ready(function() {
+    $("#change").click(function() {
+        $("#upload").fadeToggle('fast');
+    });
+    $("#blogs, #control, #edit, #manage").click(function() {
+        $("#upload").fadeOut('fast');
+    });
+});
+
 new Vue({
     el: '#loginform',
     data: {

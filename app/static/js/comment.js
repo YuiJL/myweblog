@@ -5,6 +5,7 @@ new Vue({
         comment: '',
         comments: [],
         path: '',
+        image: ''
     },
     filters: {
         datetime: function(value) {
@@ -15,8 +16,8 @@ new Vue({
         count: function(data) {
             return data.length;
         },
-        index: function(value, length) {
-            return "#" + (length - parseInt(value)).toString();
+        getIndex: function(value, length) {
+            return "#" + (length - value).toString();
         }
     },
     ready: function() {
@@ -51,6 +52,12 @@ new Vue({
                 self.subcomment = '';
                 self.comments = data.comments;
             });
+        },
+        replyToggle: function(id, length) {
+            var self = this;
+            $('#replybox').slideToggle('fast');
+            $('#replybox textarea').attr('name', id);
+            $('#replybox textarea').attr('placeholder', 'Write a reply to ' + "#" + (self.comments.length - length).toString());
         },
         delete: function(item) {
             var self = this;

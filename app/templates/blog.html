@@ -3,16 +3,22 @@
 {% block title %}{{ blog.title }}{% endblock %}
 
 {% block content %}
-<div class="container-fluid" id="control" style="margin:10px 0 20px 0">
+<div class="container-fluid" id="control">
     <div class="row content">
         <div class="col-sm-9" id="main">
             <h2 class="text-primary">{{ blog.title }}</h2>
             <h4><small><span class="glyphicon glyphicon-time"></span> Posted by {{ blog.user_name }}, {{ blog.created|datetime }}
                 {% if blog.last_modified %}/ Last modified, {{ blog.modified|datetime }} {% endif %}</small></h4>
+            <h4>
+                {% set labels = ['primary', 'success', 'info', 'warning', 'danger'] %}
+                {% for tag in blog.tag %}
+                <span class="label label-{{ labels|random }}">{{ tag }}</span>
+                {% endfor %}
+            </h4>
             <p style="margin-top:20px">{{ blog.content|markdown|safe }}</p>
             <hr>
             {% if g.__user__ %}
-            <h4>Leave a Comment:</h4>
+            <h4>Leave a comment:</h4>
             <form class="form" v-on:submit.prevent="submit">
                 <div class="form-group">
                     <textarea class="form-control" rows="5" v-model="comment" placeholder="Join the discussion..." required></textarea>
@@ -23,59 +29,59 @@
             </form>
             <br><br>
             {% else %}
-            <h4 class="text-info" style="margin-bottom:3%">Please sign in on right top to write a comment...</h4>
+            <h4 class="text-info" style="margin-bottom:3%">Please sign in at right top to comment</h4>
             {% endif %}
     
             <h4><span class="badge" v-text="comments | count"></span> Comments</h4><br>
-            <div class="row" id="replyarea" v-for="item in comments" track-by="_id">
+            <div class="row" id="replyarea" v-for="(index, item) in comments" track-by="_id">
                 <div class="col-sm-2 text-center">
-                    <img v-bind:src="item.user_image" class="img-circle" height="75" width="75" alt="Avatar" />
+                    <img v-bind:src="item.user_image" class="img-circle" alt="Avatar" />
                 </div>
                 <div class="col-sm-10" id="replybody">
                     <h4 v-if="item.user_name===item.blog_author" class="text-primary" v-text="item.user_name"></h4>
                     <h4 v-else class="text-info" v-text="item.user_name"></h4><h4></h4>
                     <h4><small v-text="item.created | datetime"></small></h4>
-                    <h4 style="float:right" class="text-muted" v-text="$index | index comments.length"></h4>
-                    <p style="overflow-x:scroll;font-size:16px" v-html="item.content"></p>
+                    <h4 style="float:right" class="text-muted" v-text="index | getIndex comments.length"></h4>
+                    <p v-html="item.content"></p>
                     <br v-if="item.subcomment">
                     <p v-if="item.subcomment"><span class="badge" v-text="item.subcontent | count"></span> Replies</p><br>
                     <div class="row" id="subbox" v-if="item.subcomment" v-for="comment in item.subcontent">
                         <div class="col-sm-2 text-center">
-                            <img v-bind:src="comment.user_image" class="img-circle" height="60" width="60" alt="Avatar" />
+                            <img v-bind:src="comment.user_image" class="img-circle" alt="Avatar" />
                         </div>
                         <div class="col-sm-10" id="replybody">
                             <h4 v-if="comment.user_name===item.blog_author" class="text-primary" v-text="comment.user_name"></h4>
                             <h4 v-else class="text-info" v-text="comment.user_name"></h4><h4></h4>
                             <h4><small v-text="comment.created | datetime"></small></h4>
                             {% if g.__user__.admin %}
-                            <a style="float:right" v-on:click="delete_one(item, comment)" id="replydeletebutton">
+                            <a v-on:click="delete_one(item, comment)" id="replydeletebutton">
                                 <i class="glyphicon glyphicon-trash"></i>
                             </a>
                             {% endif %}
-                            <p style="overflow-x:scroll" v-html="comment.content"></p>
+                            <p v-html="comment.content"></p>
                             <br>
                         </div>
                     </div>
-                    <p v-bind:id="item._id" v-bind:name="$index | index comments.length" hidden></p>
                     {% if g.__user__ %}
-                    <a onclick="$('#replybox').slideToggle('fast'); $('#replybox textarea').attr('name', $(this).prev().attr('id')); $('#replybox textarea').attr('placeholder', 'Write a reply to ' + $(this).prev().attr('name'))" id="replybutton">
+                    <a v-on:click="replyToggle(item._id, index)" id="replybutton">
                         <i class="glyphicon glyphicon-share-alt"></i> Reply
                     </a>
                     {% if g.__user__.admin %}
-                    <a v-on:click="delete(item)" id="deletebutton">
-                        <i class="glyphicon glyphicon-trash"></i> Delete 
-                    </a>
+                    <a v-on:click="delete(item)" id="deletebutton"><i class="glyphicon glyphicon-trash"></i> Delete</a>
                     {% endif %}
                     {% else %}
-                    <a id="replybutton" class="text-muted">
-                        <abbr title="Please sign in first"><i class="glyphicon glyphicon-share-alt"></i> Reply</abbr>
-                    </a>
+                    <a id="replybutton" class="text-muted"><i class="glyphicon glyphicon-share-alt"></i> Reply</a>
                     {% endif %}
                     <hr>
                 </div>
             </div>
         </div>
         <div class="col-sm-3 sidenav text-center">
+            {% if g.__user__ %}
+            <img src="{{ g.__user__.image }}" alt="User Avatar" class="img-thumbnail img-responsive" />
+            {% else %}
+            <img src="/static/img/user.png" alt="Avatar" class="img-thumbnail img-responsive" />
+            {% endif %}
         </div>
     </div>
     <form class="form" id="replybox" v-on:submit.prevent="subsubmit" hidden>
@@ -88,7 +94,6 @@
     </form>
 </div>
 {% endblock %}
-
 {% block script %}
     <script src="/static/js/comment.js"></script>
 {% endblock %}
