@@ -5,15 +5,9 @@ __author__ = 'Jiayi Li'
 
 import os
 
-from flask import Flask, request, g
-
+from flask import Flask, request, g, current_app
 from pymongo import MongoClient
-
 from app.filters import datetime_filter, markdown_filter
-
-APP_ROOT = os.path.dirname(os.path.abspath(__file__))
-UPLOAD_FOLDER = os.path.join(APP_ROOT, 'static/img')
-COOKIE_NAME = "YuiSession"
 
 client = MongoClient()
 db = client.test
@@ -26,7 +20,7 @@ def loginStatus():
     
     '''function to be run before each request'''
     
-    cookie = request.cookies.get(COOKIE_NAME, 'nothing')
+    cookie = request.cookies.get(current_app.config['COOKIE_NAME'], 'nothing')
     g.__user__ = cookieToUser(cookie)
 
     
@@ -36,8 +30,8 @@ def create_app():
     
     # create this flask app
     app = Flask(__name__)
-    app.secret_key = 'super secret key'
-    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+    # configuration
+    app.config.from_object('config.DevConfig')
     # add filters
     app.jinja_env.filters.update(datetime=datetime_filter, markdown=markdown_filter)
     # add before request functions

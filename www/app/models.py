@@ -5,8 +5,6 @@ __author__ = 'Jiayi Li'
 
 import time, hashlib
 
-from flask import current_app
-
 from app import db
 
 class User(object):
@@ -17,7 +15,7 @@ class User(object):
         self.password = kw.get('password')
         self.created = kw.get('created', int(time.time()))
         self.admin = False
-        self.image = kw.get('image', '/static/img/default.png')
+        self.image = kw.get('image', '/static/img/user.png')
         self.register()
     
     def register(self):

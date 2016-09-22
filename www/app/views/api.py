@@ -17,7 +17,6 @@ from app.utilities import allowedFile, cookieToUser
 api = Blueprint('api', __name__, url_prefix='/api')
 
 APIS = ('blogs', 'users', 'comments')
-COOKIE_NAME = "YuiSession"
 
 
 #************************************
