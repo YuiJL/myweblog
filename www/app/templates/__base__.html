@@ -4,14 +4,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     {% block meta %}<!-- block meta -->{% endblock %}
-    <title>{% block title %}{% endblock %} - Jiayi Li's Webapp</title>
+    <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:500" />
     <link rel="stylesheet" href="/static/css/yui.css" />
     <link rel="stylesheet" href="/static/css/style.css" />
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed">
+    <nav class="navbar navbar-default navbar-fixed">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand"><i class="glyphicon glyphicon-menu-hamburger"></i></a>
@@ -28,7 +28,7 @@
             <ul class="nav navbar-nav navbar-right">
                 {% if g.__user__ %}
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"> {{ g.__user__.name }}
+                    <a class="dropdown-toggle" data-toggle="dropdown" id="user"> {{ g.__user__.name }}
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
@@ -41,41 +41,43 @@
                 </li>
                 {% else %}
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="glyphicon glyphicon-log-in"></i> Sign in <span class="caret"></span>
+                    <a class="dropdown-toggle" data-toggle="dropdown" id="signin">
+                        <i class="glyphicon glyphicon-leaf"></i><span> Sign in </span><span class="caret"></span>
                     </a>
                     <ul id="login-dp" class="dropdown-menu">
-                        <li>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <form id="loginform" v-on:submit.prevent="login" class="form">
-                                        <div class="alert alert-danger" hidden>
-                                            <a class="close" onclick="$('.alert').fadeOut('fast')">&times;</a>
-                                            <span class="glyphicon glyphicon-info-sign"></span>
-                                            <span v-text="message"></span>
-                                        </div>
-                                        <div class="form-group">
-                                            <input class="form-control" v-model="email" type="email" placeholder="Email address" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <input class="form-control" v-model="password" type="password" placeholder="Password" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <button class="btn btn-primary btn-block">Sign in</button>
-                                        </div>
-                                    </form>
-                                </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <form id="loginform" v-on:submit.prevent="login" class="form">
+                                    <div class="alert alert-danger" hidden>
+                                        <a class="close" onclick="$('.alert').fadeOut('fast')">&times;</a>
+                                        <span class="glyphicon glyphicon-info-sign"></span>
+                                        <span v-text="message"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" v-model="email" type="email" placeholder="Email address" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" v-model="password" type="password" placeholder="Password" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary btn-block">Sign in</button>
+                                    </div>
+                                </form>
                             </div>
-                        </li>
+                        </div>
                     </ul>
                 </li>
-                <li><a href="/register"><i class="glyphicon glyphicon-star"></i> Sign up</a></li>
+                <li id="last"><a href="/register"><i class="glyphicon glyphicon-tint"></i> Sign up</a></li>
                 {% endif %}
             </ul>
         </div>
     </nav>
     {% block content %}
     {% endblock %}
+    <footer class="container-fluid text-center">
+        <p>&copy; 2016 Jiayi Li. All rights reserved.</p>
+        <p>Proudly powered by <a target="_blank" href="http://getbootstrap.com">Bootstrap</a> and <a target="_blank" href="http://flask.pocoo.org">Flask</a></p>
+    </footer>
     <form id="upload" class="form-inline" action="/api/image/{{ g.__user__._id }}" method="post" enctype="multipart/form-data" hidden>
         <div class="form-group">
             <input type="file" name="file">
@@ -84,11 +86,6 @@
             <button type="submit" class="btn btn-success btn-xs">Upload</button>
         </div>
     </form>
-    <footer class="container-fluid text-center">
-        <p>Copyright &copy; 2016 Jiayi Li</p>
-        <p><a href="http://www.yuijiayi.com">www.yuijiayi.com</a>. All rights reserved.</p>
-        <p>Proudly powered by <a target="_blank" href="http://getbootstrap.com">Bootstrap</a> and <a target="_blank" href="http://flask.pocoo.org">Flask</a></p>
-    </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/static/js/vue.min.js"></script>

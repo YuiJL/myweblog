@@ -1,13 +1,42 @@
 /* css for __base__.html */
-.navbar {
-    font-family: 'Ubuntu', sans-serif;
-    background-color: #2d2d30;
-    margin-bottom: 0;
-    border-radius: 0;
+html {
+    height: 100%;
 }
 
-#change {
+body {
+    height: 100%;
+    background-color: #FFFAFA;
+}
+
+.navbar {
+    font-family: 'Ubuntu', sans-serif;
+    background-color: #FDEFF2;
+    margin-bottom: 0;
+    border-radius: 0;
+    border: 0;
+}
+
+.navbar-header i,
+#navbarleft a,
+#signin,
+#last > a {
+    color: #A22041;
+}
+
+#signin, #change, #user {
     cursor: pointer;
+}
+
+#user {
+    color: #171615;
+}
+
+.navbar-header i:hover,
+#navbarleft a:hover,
+#signin:hover,
+#last > a:hover,
+#user:hover {
+    color: #F7C114;
 }
 
 #upload {
@@ -30,21 +59,23 @@
     padding: 2px;
 }
 
-#login-dp .bottom {
-    background-color: white;
-    border-top: 1px solid #ddd;
-    clear: both;
-    padding: 14px;
-}
-
 #login-dp .form-group {
     margin-bottom: 10px;
 }
 
 footer {
-    background-color: #555;
-    color: white;
-    padding-top: 15px;
+    position: relative;
+    left: 0%;
+    bottom: 0;
+    width: 100%;
+    margin: auto;
+    color: #008B8B;
+    font-size: 90%;
+    z-index: 0;
+}
+
+footer a {
+    color: #00CED1;
 }
 
 footer a:hover {
@@ -68,11 +99,6 @@ a:hover {
     text-decoration: none;
 }
 
-.row.content, #register, #manage {
-    min-height: 500px;
-    background-color: #F5FFFA;
-}
-
 .sidenav {
     padding-top: 20px;
 }
@@ -81,8 +107,17 @@ a:hover {
     width: 180px;
 }
 
+#control, #blogs, #edit, #register, #manage {
+    min-height: 90%;
+    margin-bottom: 30px;
+}
+
 #control, #blogs {
-    margin: 10px 0 20px 0;
+    padding-top: 10px;
+}
+
+#edit {
+    padding-top: 30px;
 }
 
 #main {
@@ -94,6 +129,10 @@ a:hover {
 .col-sm-2.text-center img {
     width: 75px;
     height: 75px;
+}
+
+.commonuser {
+    color: #6E1D38;
 }
 
 #replybody .text-primary:after {
@@ -111,8 +150,8 @@ a:hover {
     display: inline-block;
 }
 
-#replybody > p:first-child {
-    overflow-x: scroll;
+#replycontent {
+    overflow-x: auto;
     font-size: 16px;
 }
 
@@ -155,6 +194,7 @@ a:hover {
     width: 50%;
     height: 120px;
     margin: auto;
+    z-index: 1;
 }
 
 #replybox div {
@@ -165,20 +205,17 @@ a:hover {
     float: right;
 }
 
-
-/* css for edit.html */
-#edit {
-    margin-top: 20px;
-}
-
-
 /* css for manage.html */
 #manage {
     padding: 2% 6%;
 }
 
 .breadcrumb {
-    background-color: #FFF5EE;
+    background-color: #FDEFF2;
+}
+
+.breadcrumb a {
+    color: #A22041;
 }
 
 #firstcol button {
@@ -188,11 +225,11 @@ a:hover {
 
 #subtable {
     position: fixed;
-    bottom: 50%;
+    bottom: 20%;
     width: 80%;
     left: 10%;
     margin: auto;
-    background-color: #FFFACD;
+    background-color: #FCFBF5;
     font-size: 90%;
     border-radius: 10px 20px;
 }

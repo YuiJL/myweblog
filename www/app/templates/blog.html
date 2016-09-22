@@ -29,7 +29,7 @@
             </form>
             <br><br>
             {% else %}
-            <h4 class="text-info" style="margin-bottom:3%">Please sign in at right top to comment</h4>
+            <h4 class="text-info text-right" style="margin-bottom:3%;color:#A22041">Please sign in to make a comment</h4>
             {% endif %}
     
             <h4><span class="badge" v-text="comments | count"></span> Comments</h4><br>
@@ -39,10 +39,10 @@
                 </div>
                 <div class="col-sm-10" id="replybody">
                     <h4 v-if="item.user_name===item.blog_author" class="text-primary" v-text="item.user_name"></h4>
-                    <h4 v-else class="text-info" v-text="item.user_name"></h4><h4></h4>
+                    <h4 v-else class="commonuser" v-text="item.user_name"></h4><h4></h4>
                     <h4><small v-text="item.created | datetime"></small></h4>
                     <h4 style="float:right" class="text-muted" v-text="index | getIndex comments.length"></h4>
-                    <p v-html="item.content"></p>
+                    <p id="replycontent" v-html="item.content"></p>
                     <br v-if="item.subcomment">
                     <p v-if="item.subcomment"><span class="badge" v-text="item.subcontent | count"></span> Replies</p><br>
                     <div class="row" id="subbox" v-if="item.subcomment" v-for="comment in item.subcontent">
@@ -51,7 +51,7 @@
                         </div>
                         <div class="col-sm-10" id="replybody">
                             <h4 v-if="comment.user_name===item.blog_author" class="text-primary" v-text="comment.user_name"></h4>
-                            <h4 v-else class="text-info" v-text="comment.user_name"></h4><h4></h4>
+                            <h4 v-else class="commonuser" v-text="comment.user_name"></h4><h4></h4>
                             <h4><small v-text="comment.created | datetime"></small></h4>
                             {% if g.__user__.admin %}
                             <a v-on:click="delete_one(item, comment)" id="replydeletebutton">

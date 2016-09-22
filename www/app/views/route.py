@@ -6,7 +6,7 @@ __author__ = 'Jiayi Li'
 import time
 
 from bson.objectid import ObjectId
-from flask import request, redirect, url_for, render_template, jsonify, abort, Blueprint, make_response, g
+from flask import request, redirect, url_for, render_template, jsonify, abort, Blueprint, make_response, g, flash
 
 from app import db
 from app.models import User
@@ -58,8 +58,14 @@ def post_blog():
     
     '''blog edit page'''
     
+    if not g.__user__:
+        flash('Not sign in')
+        return redirect(url_for('route.index'))
+    
     if not g.__user__.get('admin'):
-        abort(403)
+        flash('Not admin')
+        return redirect(url_for('route.index'))
+                        
     return render_template('edit.html')
 
 

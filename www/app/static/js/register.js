@@ -14,6 +14,7 @@ new Vue({
     },
     ready: function() {
         $("#navbarleft li:first-child").removeClass("active");
+        $("#last").addClass("active");
     },
     methods: {
         register: function() {
