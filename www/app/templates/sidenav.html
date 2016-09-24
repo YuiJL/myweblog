@@ -1,0 +1,10 @@
+{% extends '__base__.html' %}
+{% block sidenav %}
+<div class="col-sm-3 sidenav text-center">
+    {% if g.__user__ %}
+    <img src={{ g.__user__.image }} alt="User Avatar" class="img-thumbnail img-responsive" />
+    {% else %}
+    <img src="/static/img/user.png" alt="Avatar" class="img-thumbnail img-responsive" />
+    {% endif %}
+</div>
+{% endblock %}

@@ -7,6 +7,7 @@
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:500" />
+    <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="stylesheet" href="/static/css/yui.css" />
     <link rel="stylesheet" href="/static/css/style.css" />
 </head>
@@ -72,8 +73,14 @@
             </ul>
         </div>
     </nav>
-    {% block content %}
-    {% endblock %}
+    <div class="container-fluid" id="control">
+        <div class="row content">
+            {% block content %}
+            {% endblock %}
+            {% block sidenav %}
+            {% endblock %}
+        </div>
+    </div>
     <footer class="container-fluid text-center">
         <p>&copy; 2016 Jiayi Li. All rights reserved.</p>
         <p>Proudly powered by <a target="_blank" href="http://getbootstrap.com">Bootstrap</a> and <a target="_blank" href="http://flask.pocoo.org">Flask</a></p>

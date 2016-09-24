@@ -1,5 +1,5 @@
 new Vue({
-    el: '#manage',
+    el: '#control',
     data: {
         collection: location.pathname.split('/').pop(),
         collections: [],
@@ -38,7 +38,7 @@ new Vue({
         });
         $("#navbarleft li:first-child").removeClass("active");
         $("#navbarleft li:nth-child(2)").addClass("active");
-        $("#manage:not('#subtable')").mousedown(function() {
+        $(".breadcrumb, #maintable").mousedown(function() {
             $("#subtable").fadeOut("fast");
         });
     },

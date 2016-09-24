@@ -1,3 +1,10 @@
+function blackMagic(tag) {
+    $(tag).parent().find('form').removeClass('replybox');
+    $('.replybox').hide();
+    $('.replybox').removeClass('replybox');
+    $(tag).parent().find('form').addClass('replybox');
+}
+
 new Vue({
     el: '#control',
     data: {
@@ -25,9 +32,6 @@ new Vue({
         $.getJSON('/api/blogs/' + self.id + '/comments', function(data) {
             self.comments = data.comments;
         });
-        $(".row.content").mousedown(function() {
-            $("#replybox").slideUp("fast");
-        });
         $("#navbarleft li:first-child").removeClass("active");
     },
     methods: {
@@ -41,10 +45,10 @@ new Vue({
                 self.comments = data.comments;
             });
         },
-        subsubmit: function() {
+        reply: function() {
             var self = this;
-            $('#replybox').slideUp('fast');
-            self.path = $('#replybox textarea').attr('name');
+            $('.replybox').hide();
+            self.path = $('.replybox textarea').attr('name');
             $.ajax('/api/blogs/' + self.id + '/comments/' + self.path, {
                 data: {content: self.subcomment},
                 method: "POST"
@@ -53,11 +57,11 @@ new Vue({
                 self.comments = data.comments;
             });
         },
-        replyToggle: function(id, length) {
+        replyBox: function(id, length) {
             var self = this;
-            $('#replybox').slideToggle('fast');
-            $('#replybox textarea').attr('name', id);
-            $('#replybox textarea').attr('placeholder', 'Write a reply to ' + "#" + (self.comments.length - length).toString());
+            $('.replybox').toggle();
+            $('.replybox textarea').attr('name', id);
+            $('.replybox textarea').attr('placeholder', 'Write a reply to ' + "#" + (self.comments.length - length).toString());
         },
         delete: function(item) {
             var self = this;

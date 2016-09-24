@@ -1,34 +1,21 @@
-{% extends '__base__.html' %}
+{% extends 'sidenav.html' %}
 
 {% block title %}Blog{% endblock %}
 
 {% block content %}
-<div class="container-fluid" id="blogs">
-    <div class="row content">
-        <div class="col-sm-9" id="main">
-            <h4><small>RECENT POSTS </small></h4>
-            {% for blog in blogs %}
-            <h2 class="text-primary">{{ blog.title }}</h2>
-            <h4><small><span class="glyphicon glyphicon-time"></span> Posted by {{ blog.user_name }}, {{ blog.created|datetime }}
-                {% if blog.last_modified %}/ Last modified, {{ blog.modified|datetime }} {% endif %}</small></h4>
-            <h5>
-                {% set labels = ['primary', 'success', 'info', 'warning', 'danger'] %}
-                {% for tag in blog.tag %}
-                <span class="label label-{{ labels|random }}">{{ tag }}</span>
-                {% endfor %}
-            </h5>
-            <p>{{ blog.summary|markdown|safe }}</p>
-            <p><a href="blog/{{ blog._id }}">Read More <span class="glyphicon glyphicon-chevron-right"></span></a></p>
-            <hr>
-            {% endfor %}
-        </div>
-        <div class="col-sm-3 sidenav text-center">
-            {% if g.__user__ %}
-            <img src={{ g.__user__.image }} alt="User Avatar" class="img-thumbnail img-responsive" />
-            {% else %}
-            <img src="/static/img/user.png" alt="Avatar" class="img-thumbnail img-responsive" />
-            {% endif %}
-        </div>
-    </div>
+<div class="col-sm-9" id="main">
+    <h4><small>RECENT POSTS </small></h4>
+    {% for blog in blogs %}
+    <h2 class="text-primary">{{ blog.title }}</h2>
+    <h4><small><span class="glyphicon glyphicon-time"></span> Posted by {{ blog.user_name }}, {{ blog.created|datetime }}
+        {% if blog.last_modified %}/ Last modified, {{ blog.modified|datetime }} {% endif %}</small></h4>
+    <h5>{% set labels = ['primary', 'success', 'info', 'warning', 'danger'] %}
+        {% for tag in blog.tag %}
+        <span class="label label-{{ labels|random }}">{{ tag }}</span>
+        {% endfor %}
+    </h5>
+    <p>{{ blog.summary|markdown|safe }}</p>
+    <p><a href="blog/{{ blog._id }}">Read More <span class="glyphicon glyphicon-chevron-right"></span></a></p><hr>
+    {% endfor %}
 </div>
 {% endblock %}

@@ -3,7 +3,7 @@
 {% block title %}Manage - {{ collection }}{% endblock %}
 
 {% block content %}
-<div class="container-fluid" id="manage">
+<div id="manage">
     <ul class="breadcrumb">
         {% if collection == "comments" %}
         <li class="active">Comments</li>
@@ -66,9 +66,7 @@
                 {% if g.__user__.admin %}
                 <td v-show="'{{collection}}'!=='users'">
                     <a v-bind:href="'/manage/blogs/edit?id='+document._id" v-show="'{{collection}}'==='blogs'">
-                        <button class="btn btn-xs btn-primary">
-                            <i class="glyphicon glyphicon-pencil"></i> Edit
-                        </button>
+                        <button class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-pencil"></i> Edit</button>
                     </a>
                     <button v-on:click="delete(document)" class="btn btn-xs btn-danger">
                         <i class="glyphicon glyphicon-trash"></i> Delete

@@ -66,11 +66,12 @@ body {
 footer {
     position: relative;
     left: 0%;
-    bottom: 0;
     width: 100%;
     margin: auto;
     color: #008B8B;
     font-size: 90%;
+    padding-top: 10px;
+    padding-bottom: 30px;
     z-index: 0;
 }
 
@@ -107,17 +108,10 @@ a:hover {
     width: 180px;
 }
 
-#control, #blogs, #edit, #register, #manage {
+#control {
     min-height: 90%;
     margin-bottom: 30px;
-}
-
-#control, #blogs {
     padding-top: 10px;
-}
-
-#edit {
-    padding-top: 30px;
 }
 
 #main {
@@ -131,16 +125,12 @@ a:hover {
     height: 75px;
 }
 
-.commonuser {
-    color: #6E1D38;
-}
-
 #replybody .text-primary:after {
     content: 'author';
     background: #00CED1;
     color: #FFF;
     font-size: 11px;
-    padding: 1px 2px 2px 2px;
+    padding: 2px 4px 3px 4px;
     font-weight: 700;
     margin-left: 5px;
     border-radius: 3px;
@@ -152,7 +142,7 @@ a:hover {
 
 #replycontent {
     overflow-x: auto;
-    font-size: 16px;
+    font-size: 18px;
 }
 
 #replybody:hover #replybutton {
@@ -164,8 +154,8 @@ a:hover {
 }
 
 #subbox img {
-    width: 60px;
-    height: 60px;
+    width: 55px;
+    height: 55px;
 }
 
 #replydeletebutton {
@@ -187,27 +177,28 @@ a:hover {
     border-bottom: none;
 }
 
-#replybox {
-    position: fixed;
-    bottom: 0;
-    left: 25%;
-    width: 50%;
-    height: 120px;
-    margin: auto;
-    z-index: 1;
+.replybox .col-sm-10 {
+    padding-right: 0;
 }
 
-#replybox div {
-    margin: 5px;
+.replybox .col-sm-2 {
+    margin-top: 6px;
 }
 
-#replybox button {
-    float: right;
+.replybox button {
+    color: #FFFAFA;
+    background-color: #00CED1;
+    padding: 16px 8px;
+}
+
+.replybox button:hover {
+    color: #FFFAFA;
+    background-color: #48D1CC;
 }
 
 /* css for manage.html */
 #manage {
-    padding: 2% 6%;
+    padding: 1% 6%;
 }
 
 .breadcrumb {
@@ -232,6 +223,13 @@ a:hover {
     background-color: #FCFBF5;
     font-size: 90%;
     border-radius: 10px 20px;
+}
+
+
+/* css for edit.html */
+#blog {
+    width: 85%;
+    padding-top: 30px;
 }
 
 
