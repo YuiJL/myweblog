@@ -14,6 +14,7 @@ from app.utilities import userToCookie, validPassword, loginResponse, signOutRes
 
 route = Blueprint('route', __name__)
 
+
 #**************************************************************
 #----------------Homepage, Blog and Manage Page----------------
 #**************************************************************
@@ -81,6 +82,9 @@ def register():
     '''
     
     if request.method == 'GET':
+        if g.__user__:
+            flash('Already sign in')
+            return redirect(url_for('route.index'))
         return render_template('register.html')
     else:
         users = db.users
