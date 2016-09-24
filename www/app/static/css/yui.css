@@ -71,8 +71,9 @@ footer {
     color: #008B8B;
     font-size: 90%;
     padding-top: 10px;
-    padding-bottom: 30px;
+    padding-bottom: 20px;
     z-index: 0;
+    font-family: Palatino, Georgia, "Times New Roman", Times, serif;
 }
 
 footer a {
@@ -114,15 +115,41 @@ a:hover {
     padding-top: 10px;
 }
 
-#main {
+#main, #home {
+    font-family: Palatino, Georgia, "Times New Roman", Times, serif;
     padding-left: 15%;
+}
+
+#main > p {
+    margin-top: 20px;
+}
+
+#home > p {
+    margin-top: 15px;
+}
+
+#main {
+    font-size: 1.25em;
+}
+
+#home {
+    font-size: 1.1em;
+}
+
+.text-primary, .text-info {
+    font-weight: bold;
 }
 
 
 /* css for blog.html */
 .col-sm-2.text-center img {
-    width: 75px;
-    height: 75px;
+    width: 70px;
+    height: 70px;
+}
+
+.text-right {
+    margin-bottom: 3%;
+    color: #A22041;
 }
 
 #replybody .text-primary:after {
@@ -130,51 +157,64 @@ a:hover {
     background: #00CED1;
     color: #FFF;
     font-size: 11px;
-    padding: 2px 4px 3px 4px;
+    padding: 2px 3px;
     font-weight: 700;
     margin-left: 5px;
     border-radius: 3px;
 }
 
-#replybody h4 {
+.col-sm-1 {
+    clear: right;
+    padding-top: 10px;
+}
+
+.col-sm-11 > :first-child,
+.col-sm-11 > p {
+    padding-left: 10px;
+}
+
+.col-sm-11 > p {
+    overflow-x: auto;
+    font-size: 16px;
+    margin-bottom: 0;
+}
+
+#replybody h4, #replybody h5 {
     display: inline-block;
 }
 
 #replycontent {
     overflow-x: auto;
     font-size: 18px;
-}
-
-#replybody:hover #replybutton {
-    display: inline-block;
-}
-
-#replybody:hover #deletebutton {
-    display: inline-block;
+    margin-bottom: 0;
 }
 
 #subbox img {
-    width: 55px;
-    height: 55px;
+    width: 45px;
+    height: 45px;
 }
 
 #replydeletebutton {
     float: right;
     cursor: pointer;
+    font-size: 80%;
     color: #D9534F;
 }
 
 #replybutton, #deletebutton {
     float: right;
-    font-size: 90%;
+    font-size: 75%;
     padding-left: 10px;
-    bottom: 10px;
+    color: #A58AC2;
     cursor: pointer;
-    display: none;
 }
 
-#replybutton abbr {
-    border-bottom: none;
+#replybutton2, #deletebutton2 {
+    float: right;
+    font-size: 66%;
+    padding-left: 10px;
+    color: #7FBBD2;
+    cursor: pointer;
 }
 
 .replybox .col-sm-10 {
@@ -195,6 +235,7 @@ a:hover {
     color: #FFFAFA;
     background-color: #48D1CC;
 }
+
 
 /* css for manage.html */
 #manage {

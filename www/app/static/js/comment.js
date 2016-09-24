@@ -1,15 +1,31 @@
-function blackMagic(tag) {
-    $(tag).parent().find('form').removeClass('replybox');
-    $('.replybox').hide();
-    $('.replybox').removeClass('replybox');
-    $(tag).parent().find('form').addClass('replybox');
+function blackMagic(tag, mode) {
+    if (mode === 1) {
+        var it = $(tag).parent().find('form');
+        if (it.hasClass('replybox')) {
+            if (vm.subcomment !== '') {
+                vm.subcomment = '';
+            } else {
+                it.removeClass('replybox');
+            }
+        }
+        $('.replybox').hide();
+        $('.replybox').removeClass('replybox');
+        it.addClass('replybox');
+    } else {
+        var it = $(tag).parent().parent().parent().find('form');
+        if (!it.hasClass('replybox')) {
+            $('.replybox').hide();
+            $('.replybox').removeClass('replybox');
+            it.addClass('replybox');
+        }
+    }
 }
 
-new Vue({
+var vm = new Vue({
     el: '#control',
     data: {
         id: location.pathname.split('/').pop(),
-        comment: '',
+        subcomment: '',
         comments: [],
         path: '',
         image: ''
@@ -41,11 +57,11 @@ new Vue({
                 data: {content: self.comment},
                 method: "POST"
             }).done(function(data) {
-                self.comment = '';
+                self.subcomment = '';
                 self.comments = data.comments;
             });
         },
-        reply: function() {
+        reply: function(mode) {
             var self = this;
             $('.replybox').hide();
             self.path = $('.replybox textarea').attr('name');
@@ -57,9 +73,15 @@ new Vue({
                 self.comments = data.comments;
             });
         },
-        replyBox: function(id, length) {
+        replyBox: function(id, length, mode, name) {
             var self = this;
-            $('.replybox').toggle();
+            if (mode === 1) {
+                $('.replybox').toggle();
+                self.subcomment = '';
+            } else {
+                $('.replybox').show();
+                self.subcomment = 'RE @' + name + ': ';
+            }
             $('.replybox textarea').attr('name', id);
             $('.replybox textarea').attr('placeholder', 'Write a reply to ' + "#" + (self.comments.length - length).toString());
         },

@@ -5,14 +5,14 @@
 {% block content %}
 <div class="col-sm-9" id="main">
     <h2 class="text-primary">{{ blog.title }}</h2>
-    <h4><small><span class="glyphicon glyphicon-time"></span> Posted by {{ blog.user_name }}, {{ blog.created|datetime }}
-        {% if blog.last_modified %}/ Last modified, {{ blog.modified|datetime }} {% endif %}</small></h4>
+    <h4 class="text-muted"><i class="glyphicon glyphicon-time"></i> Posted by {{ blog.user_name }}, {{ blog.created|datetime }}
+        {% if blog.last_modified %}/ Last modified, {{ blog.modified|datetime }} {% endif %}</h4>
     <h4>{% set labels = ['primary', 'success', 'info', 'warning', 'danger'] %}
         {% for tag in blog.tag %}
         <span class="label label-{{ labels|random }}">{{ tag }}</span>
         {% endfor %}
     </h4>
-    <p style="margin-top:20px">{{ blog.content|markdown|safe }}</p><hr>
+    <p>{{ blog.content|markdown|safe }}</p><hr>
     {% if g.__user__ %}
     <h4>Leave a comment:</h4>
     <form class="form" v-on:submit.prevent="submit">
@@ -25,9 +25,9 @@
     </form>
     <br><br>
     {% else %}
-    <h4 class="text-info text-right" style="margin-bottom:3%;color:#A22041">Please sign in to make a comment</h4>
+    <h4 class="text-right">Please sign in to make a comment</h4>
     {% endif %}
-    <h4><span class="badge" v-text="comments | count"></span> Comments</h4><br>
+    <p>Comments <span class="badge" v-text="comments | count"></span></p>
     <div class="row" id="replyarea" v-for="(index, item) in comments" track-by="_id">
         <div class="col-sm-2 text-center">
             <img v-bind:src="item.user_image" class="img-circle" alt="Avatar" />
@@ -39,7 +39,7 @@
             <h4 style="float:right" class="text-muted" v-text="index | getIndex comments.length"></h4>
             <p id="replycontent" v-html="item.content"></p>
             {% if g.__user__ %}
-            <a v-on:click="replyBox(item._id, index)" onclick="blackMagic($(this))" id="replybutton">
+            <a v-on:click="replyBox(item._id, index, 1, '')" onclick="blackMagic($(this), 1)" id="replybutton">
                 <i class="glyphicon glyphicon-share-alt"></i> Reply
             </a>
             {% if g.__user__.admin %}
@@ -48,28 +48,33 @@
             {% else %}
             <a id="replybutton" class="text-muted"><i class="glyphicon glyphicon-share-alt"></i> Reply</a>
             {% endif %}
-            <p v-if="item.subcomment"><span class="badge" v-text="item.subcontent | count"></span> Replies</p><br>
             <div class="row" id="subbox" v-if="item.subcomment" v-for="comment in item.subcontent">
-                <div class="col-sm-2 text-center">
+                <div class="col-sm-1">
                     <img v-bind:src="comment.user_image" class="img-circle" alt="Avatar" />
                 </div>
-                <div class="col-sm-10" id="replybody">
-                    <h4 v-if="comment.user_name===item.blog_author" class="text-primary" v-text="comment.user_name"></h4>
-                    <h4 v-else class="commonuser" v-text="comment.user_name"></h4><h4></h4>
+                <div class="col-sm-11" id="replybody">
+                    <h5 v-if="comment.user_name===item.blog_author" class="text-primary" v-text="comment.user_name"></h5>
+                    <h5 v-else class="text-info" v-text="comment.user_name"></h5><h5></h5>
                     <h4><small v-text="comment.created | datetime"></small></h4>
+                    <p v-html="comment.content"></p>
+                    {% if g.__user__ %}
+                    <a v-on:click="replyBox(item._id, index, 2, comment.user_name)" onclick="blackMagic($(this), 2)" id="replybutton2">
+                        <i class="glyphicon glyphicon-share-alt"></i> Reply
+                    </a>
                     {% if g.__user__.admin %}
-                    <br>
-                    <a v-on:click="delete_one(item, comment)" id="replydeletebutton">
-                        <i class="glyphicon glyphicon-trash"></i>
+                    <a v-on:click="delete_one(item, comment)" id="deletebutton2">
+                        <i class="glyphicon glyphicon-trash"></i> Delete
                     </a>
                     {% endif %}
-                    <p v-html="comment.content"></p><br>
+                    {% else %}
+                    <a id="replybutton" class="text-muted"><i class="glyphicon glyphicon-share-alt"></i></a>
+                    {% endif %}
                 </div>
             </div>
             <form class="form" v-on:submit.prevent="reply" style="display:none"><br>
                 <div class="row">
                     <div class="form-group col-sm-10">
-                        <textarea class="form-control" rows="3" v-model="subcomment" required></textarea>
+                        <textarea class="form-control" rows="3" v-text="sth" v-model="subcomment" required></textarea>
                     </div>
                     <div class="form-group col-sm-2">
                         <button class="btn btn-lg">Submit</button>
