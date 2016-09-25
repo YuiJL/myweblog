@@ -113,13 +113,15 @@ def api_edit_blog(blog_id):
     title = request.form.get('title')
     tag = request.form.get('tag')
     content = request.form.get('content')
+    content = content.lstrip('\n').rstrip()
     db.blogs.update_one(
         {'_id': ObjectId(blog_id)},
         {
             '$set': {
                 'title': title.strip(),
                 'tag': tag.split(),
-                'content': content.lstrip('\n').rstrip(),
+                'content': content,
+                'summary': '%s%s' % (content[:140], '...'),
                 'last_modified': True,
                 'modified': int(time.time())
             }
