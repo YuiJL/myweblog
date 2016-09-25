@@ -26,6 +26,7 @@ var vm = new Vue({
     data: {
         id: location.pathname.split('/').pop(),
         subcomment: '',
+        comment: '',
         comments: [],
         path: '',
         image: ''
@@ -57,7 +58,7 @@ var vm = new Vue({
                 data: {content: self.comment},
                 method: "POST"
             }).done(function(data) {
-                self.subcomment = '';
+                self.comment = '';
                 self.comments = data.comments;
             });
         },

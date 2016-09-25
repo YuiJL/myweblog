@@ -126,14 +126,11 @@ a:hover {
 
 #home > p {
     margin-top: 15px;
+    font-size: 1.1em;
 }
 
 #main {
     font-size: 1.25em;
-}
-
-#home {
-    font-size: 1.1em;
 }
 
 .text-primary, .text-info {

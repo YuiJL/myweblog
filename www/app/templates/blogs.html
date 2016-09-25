@@ -14,7 +14,7 @@
         <span class="label label-{{ labels|random }}">{{ tag }}</span>
         {% endfor %}
     </h5>
-    <p>{{ blog.summary|markdown|safe }}</p>
+    {{ blog.summary|markdown|safe }}
     <p><a href="blog/{{ blog._id }}">Read More <span class="glyphicon glyphicon-chevron-right"></span></a></p><hr>
     {% endfor %}
 </div>

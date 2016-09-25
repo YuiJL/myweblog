@@ -12,7 +12,7 @@
         <span class="label label-{{ labels|random }}">{{ tag }}</span>
         {% endfor %}
     </h4>
-    <p>{{ blog.content|markdown|safe }}</p><hr>
+    {{ blog.content|markdown|safe }}<hr>
     {% if g.__user__ %}
     <h4>Leave a comment:</h4>
     <form class="form" v-on:submit.prevent="submit">

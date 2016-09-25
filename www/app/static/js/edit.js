@@ -38,6 +38,9 @@ new Vue({
                 self.message = xhr.responseText;
                 return $('.alert').show();
             });
+        },
+        cancel: function() {
+            return location.assign(location.pathname.split('/edit')[0]);
         }
     }
 })
