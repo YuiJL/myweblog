@@ -1,21 +1,38 @@
 {% extends 'sidenav.html' %}
-
-{% block title %}Blog{% endblock %}
-
+{% block title %}Gensōkyō{% endblock %}
+{% set labels = ['primary', 'success', 'info', 'warning', 'danger'] %}
 {% block content %}
 <div class="col-sm-9" id="home">
-    <h4><small>RECENT POSTS </small></h4>
+    <div class="text-right">
+        <button class="btn btn-default btn-xs" v-on:click="viewmode('?view=catalog')">
+            <span class="glyphicon glyphicon-list"></span> Catalog View</button>
+        <button class="btn btn-default btn-xs" v-on:click="viewmode('?view=summary')">
+            <span class="glyphicon glyphicon-th"></span> Summary View</button>
+    </div>
+    {% if g.__view__ != 'catalog' %}
     {% for blog in blogs %}
     <h3 class="text-primary">{{ blog.title }}</h3>
-    <h4><small><i class="glyphicon glyphicon-time"></i> Posted by {{ blog.user_name }}, {{ blog.created|datetime }}
-        {% if blog.last_modified %}/ Last modified, {{ blog.modified|datetime }} {% endif %}</small></h4>
-    <h5>{% set labels = ['primary', 'success', 'info', 'warning', 'danger'] %}
-        {% for tag in blog.tag %}
-        <span class="label label-{{ labels|random }}">{{ tag }}</span>
-        {% endfor %}
-    </h5>
+    <h4><small><i class="glyphicon glyphicon-time"></i> Posted by {{ blog.user_name }}, {{ blog.created|datetime("summary") }}
+        {% if blog.last_modified %}/ Last modified, {{ blog.modified|datetime("summary") }} {% endif %}</small></h4>
+    <h5>{% for tag in blog.tag %}<span class="label label-{{ labels|random }}">{{ tag }}</span>  {% endfor %}</h5>
     {{ blog.summary|markdown|safe }}
     <p><a href="blog/{{ blog._id }}">Read More <span class="glyphicon glyphicon-chevron-right"></span></a></p><hr>
     {% endfor %}
+    {% else %}
+    <table class="table">
+        <tbody>
+            {% for b in blogs2 %}
+            <tr>
+                <td class="col-sm-7"><a v-bind:href="'/blog/'+ '{{ b._id }}'">{{ b.title }}</a></td>
+                <td class="col-sm-2">{{ b.user_name }}</td>
+                <td class="col-sm-3">{{ b.created|datetime("catalog") }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
 </div>
+{% endblock %}
+{% block script %}
+<script src="/static/js/blogs.js"></script>
 {% endblock %}

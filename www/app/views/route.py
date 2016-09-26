@@ -6,11 +6,11 @@ __author__ = 'Jiayi Li'
 import time
 
 from bson.objectid import ObjectId
-from flask import request, redirect, url_for, render_template, jsonify, abort, Blueprint, make_response, g, flash
+from flask import request, redirect, url_for, render_template, jsonify, abort, Blueprint, make_response, g, flash, current_app
 
 from app import db
 from app.models import User
-from app.utilities import userToCookie, validPassword, loginResponse, signOutResponse
+from app.utilities import userToCookie, validPassword, loginResponse, signOutResponse, viewToCookie
 
 route = Blueprint('route', __name__)
 
@@ -24,7 +24,9 @@ def index():
     
     '''homepage'''
     
-    return render_template('blogs.html', blogs=db.blogs.find().sort("created", -1))
+    blogs = db.blogs.find().sort("created", -1)
+    blogs2 = db.blogs.find().sort("created", -1)
+    return render_template('blogs.html', blogs=blogs, blogs2=blogs2)
 
 
 @route.route('/blog/<blog_id>')
@@ -131,3 +133,15 @@ def signout():
     '''return a sign out response'''
     
     return signOutResponse(redirect(request.referrer or url_for('route.index')))
+
+
+@route.route('/', methods=['POST'])
+def view_mode():
+    
+    '''return a response with view mode cookie set'''
+    
+    view_mode = request.args.get('view')
+    cookie = viewToCookie(view_mode)
+    response = jsonify(view=view_mode)
+    response.set_cookie(current_app.config['COOKIE_NAME'], cookie, max_age=21600, httponly=True)
+    return response

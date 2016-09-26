@@ -115,13 +115,19 @@ a:hover {
     padding-top: 10px;
 }
 
+.text-primary, .text-info {
+    font-weight: bold;
+}
+
 #main, #home {
     font-family: Palatino, Georgia, "Times New Roman", Times, serif;
     padding-left: 15%;
 }
 
-#main > p {
-    margin-top: 20px;
+
+/* css for blogs.html */
+#home .text-right {
+    margin-top: 10px;
 }
 
 #home > p {
@@ -129,16 +135,21 @@ a:hover {
     font-size: 1.1em;
 }
 
-#main {
-    font-size: 1.25em;
-}
-
-.text-primary, .text-info {
-    font-weight: bold;
+#home tr, #home td {
+    border-top: 1px dotted lightgrey;
+    border-bottom: 1px dotted lightgrey;
 }
 
 
 /* css for blog.html */
+#main {
+    font-size: 1.25em;
+}
+
+#main > p {
+    margin-top: 20px;
+}
+
 .col-sm-2.text-center img {
     width: 70px;
     height: 70px;

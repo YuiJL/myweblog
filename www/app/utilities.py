@@ -4,7 +4,7 @@
 __author__ = 'Jiayi Li'
 
 import time, hashlib, json
-from flask import current_app
+from flask import current_app, request
 from bson.objectid import ObjectId
 from app import db
 
@@ -17,7 +17,8 @@ def userToCookie(user, max_age=86400):
     expire_time = str(max_age + int(time.time()))
     sha1_before = '%s-%s-%s-%s' % (user['_id'], user['password'], expire_time, current_app.config['SECRET_KEY'])
     L = [user['_id'], expire_time, hashlib.sha1(sha1_before.encode('utf-8')).hexdigest()]
-    return '-'.join(L)
+    view_cookie = request.cookies.get(current_app.config['COOKIE_NAME'], '').split('+').pop()
+    return '-'.join(L) + '+' + view_cookie
 
 
 def cookieToUser(cookie):
@@ -27,7 +28,7 @@ def cookieToUser(cookie):
     '''
     
     try:
-        L = cookie.split('-')
+        L = cookie.split('+')[0].split('-')
         if len(L) != 3:
             return None
         user_id, expire_time, sha1 = L
@@ -45,6 +46,24 @@ def cookieToUser(cookie):
         return user
     except Exception as e:
         print(e)
+        
+        
+def viewToCookie(view):
+    
+    '''return cookie from query string'''
+    
+    user_cookie = request.cookies.get(current_app.config['COOKIE_NAME'], '').split('+')[0]
+    return user_cookie + '+' + view
+
+
+def cookieToView(cookie):
+    
+    '''extract view mode from cookie'''
+    
+    view = cookie.split('+').pop()
+    if not view:
+        return None
+    return view
 
 
 def validPassword(user, password):
@@ -83,5 +102,6 @@ def signOutResponse(response):
     return a sign out response with cookie deleted
     '''
     
-    response.set_cookie(current_app.config['COOKIE_NAME'], 'deleted', httponly=True)
+    cookie = request.cookies.get(current_app.config['COOKIE_NAME']).split('+').pop()
+    response.set_cookie(current_app.config['COOKIE_NAME'], '+'+cookie, httponly=True)
     return response
