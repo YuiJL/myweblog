@@ -6,9 +6,9 @@ $("textarea").keydown(function(e) {
         var $this = $(this);
         var value = $this.val();
         $this.val(value.substring(0, start)
-                    + "\t"
+                    + "    "
                     + value.substring(end));
-        this.selectionStart = this.selectionEnd = start + 1;
+        this.selectionStart = this.selectionEnd = start + 4;
         e.preventDefault();
     }
 });

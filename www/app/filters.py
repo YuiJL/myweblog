@@ -11,32 +11,30 @@ from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import HtmlFormatter
 
-months = ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')
-
-
-def datetime_filter(t):
+def datetime_filter(t, mode):
     
     '''custom datetime filter for jinja2 templates'''
     
-    delta = int(time.time() - t)
-    if delta <= 1:
-        return u'a second ago'
-    if delta < 60:
-        return u'%s seconds ago' % delta
-    if delta < 120:
-        return u'a minute ago'
-    if delta < 3600:
-        return u'%s minutes ago' % (delta // 60)
-    if delta < 7200:
-        return u'an hour ago'
-    if delta < 86400:
-        return u'%s hours ago' % (delta // 3600)
-    if delta < 172800:
-        return u'a day ago'
-    if delta < 604800:
-        return u'%s days ago' % (delta // 86400)
+    if mode == 'summary':
+        delta = int(time.time() - t)
+        if delta <= 1:
+            return u'a second ago'
+        if delta < 60:
+            return u'%s seconds ago' % delta
+        if delta < 120:
+            return u'a minute ago'
+        if delta < 3600:
+            return u'%s minutes ago' % (delta // 60)
+        if delta < 7200:
+            return u'an hour ago'
+        if delta < 86400:
+            return u'%s hours ago' % (delta // 3600)
+        if delta < 172800:
+            return u'a day ago'
+        if delta < 604800:
+            return u'%s days ago' % (delta // 86400)
     dt = datetime.fromtimestamp(t)
-    return u'%s %s, %s' % (months[dt.month-1], dt.day, dt.year)
+    return dt.strftime('%b/%m/%Y, %I:%M:%S %p')
 
 
 class HighlightRenderer(mistune.Renderer):
