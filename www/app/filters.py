@@ -34,7 +34,7 @@ def datetime_filter(t, mode):
         if delta < 604800:
             return u'%s days ago' % (delta // 86400)
     dt = datetime.fromtimestamp(t)
-    return dt.strftime('%b/%m/%Y, %I:%M:%S %p')
+    return dt.strftime('%b/%d/%Y, %I:%M:%S %p')
 
 
 class HighlightRenderer(mistune.Renderer):

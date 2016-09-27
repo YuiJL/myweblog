@@ -46,7 +46,7 @@
             <a v-on:click="delete(item)" id="deletebutton"><i class="glyphicon glyphicon-trash"></i> Delete</a>
             {% endif %}
             {% else %}
-            <a id="replybutton" class="text-muted"><i class="glyphicon glyphicon-share-alt"></i> Reply</a>
+            <a id="noreply" class="text-muted"><i class="glyphicon glyphicon-share-alt"></i></a>
             {% endif %}
             <div class="row" id="subbox" v-if="item.subcomment" v-for="comment in item.subcontent">
                 <div class="col-sm-1">
@@ -67,7 +67,7 @@
                     </a>
                     {% endif %}
                     {% else %}
-                    <a id="replybutton" class="text-muted"><i class="glyphicon glyphicon-share-alt"></i></a>
+                    <a id="noreply2" class="text-muted"><i class="glyphicon glyphicon-share-alt"></i></a>
                     {% endif %}
                 </div>
             </div>
