@@ -3,7 +3,7 @@
 
 __author__ = 'Jiayi Li'
 
-import time
+import time, math
 
 from bson.objectid import ObjectId
 from flask import request, redirect, url_for, render_template, jsonify, abort, Blueprint, make_response, g, flash, current_app
@@ -24,9 +24,19 @@ def index():
     
     '''homepage'''
     
-    blogs = db.blogs.find().sort("created", -1)
-    blogs2 = db.blogs.find().sort("created", -1)
-    return render_template('blogs.html', blogs=blogs, blogs2=blogs2)
+    blogs = db.blogs.find().sort("created", -1).limit(5)
+    pages = [str(i) for i in range(1, math.ceil(db.blogs.count() / 5) + 1)]
+    return render_template('blogs.html', blogs=blogs, blogs2=blogs, pages=pages, page='1')
+
+
+@route.route('/blogs/<page>')
+def blogs_by_page(page):
+    
+    '''show blogs by page'''
+    
+    blogs = db.blogs.find().sort("created", -1).limit(5).skip(5*(int(page)-1))
+    pages = [str(i) for i in range(1, math.ceil(db.blogs.count() / 5) + 1)]
+    return render_template('blogs.html', blogs=blogs, blogs2=blogs, pages=pages, page=page)
 
 
 @route.route('/blog/<blog_id>')
@@ -143,5 +153,5 @@ def view_mode():
     view_mode = request.args.get('view')
     cookie = viewToCookie(view_mode)
     response = jsonify(view=view_mode)
-    response.set_cookie(current_app.config['COOKIE_NAME'], cookie, max_age=21600, httponly=True)
+    response.set_cookie(current_app.config['COOKIE_NAME'], cookie, max_age=86400, httponly=True)
     return response

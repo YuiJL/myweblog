@@ -1,5 +1,5 @@
 {% extends 'sidenav.html' %}
-{% block title %}Gensōkyō{% endblock %}
+{% block title %}Jiayi's Gensokyo{% endblock %}
 {% set labels = ['primary', 'success', 'info', 'warning', 'danger'] %}
 {% block content %}
 <div class="col-sm-9" id="home">
@@ -23,14 +23,25 @@
         <tbody>
             {% for b in blogs2 %}
             <tr>
-                <td class="col-sm-7"><a v-bind:href="'/blog/'+ '{{ b._id }}'">{{ b.title }}</a></td>
-                <td class="col-sm-2">{{ b.user_name }}</td>
-                <td class="col-sm-3">{{ b.created|datetime("catalog") }}</td>
+                <td class="col-sm-6"><a v-bind:href="'/blog/'+ '{{ b._id }}'">{{ b.title }}</a></td>
+                <td class="col-sm-2 text-right">{{ b.user_name }}</td>
+                <td class="col-sm-4 text-right">{{ b.created|datetime("catalog") }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
     {% endif %}
+    <div class="text-center">
+        <ul class="pagination pagination-sm">
+            {% for p in pages %}
+            <li class="{{'active' if p == page}}">
+                {% if p != page %}<a href="/blogs/{{p}}">{{ p }}</a>
+                {% else %}<a>{{ p }}</a>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
 {% endblock %}
 {% block script %}

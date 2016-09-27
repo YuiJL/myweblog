@@ -140,6 +140,10 @@ a:hover {
     border-bottom: 1px dotted lightgrey;
 }
 
+.pagination {
+    padding-top: 10px;
+}
+
 
 /* css for blog.html */
 #main {
@@ -221,7 +225,19 @@ a:hover {
     float: right;
     font-size: 66%;
     padding-left: 10px;
-    color: #7FBBD2;
+    color: #A58AC2;
+    cursor: pointer;
+}
+
+#noreply {
+    float: right;
+    font-size: 75%;
+    cursor: pointer;
+}
+
+#noreply2 {
+    float: right;
+    font-size: 66%;
     cursor: pointer;
 }
 
