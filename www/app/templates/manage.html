@@ -45,14 +45,7 @@
         <tbody>
             <tr v-for="document in collections">
                 {% if collection == "comments" %}
-                <td v-if="document.subcomment" id="firstcol">
-                    <span v-text="document.content | summary 30"></span>
-                    <p v-bind:id="document._id" hidden></p>
-                    <button class="btn btn-xs btn-info" v-on:click="show(document._id)">
-                        <i class="glyphicon glyphicon-list"></i>
-                    </button>
-                </td>
-                <td v-else v-text="document.content | summary 36"></td>
+                <td v-text="document.content | summary 36"></td>
                 <td v-text="document.user_name"></td>
                 <td v-text="document.blog_title | summary 34"></td>
                 {% elif collection == "blogs" %}
@@ -76,36 +69,8 @@
             </tr>
         </tbody>
     </table>
-    <table class="table" id="subtable" hidden>
-        <thead>
-            <tr>
-                <th class="col-sm-3">Reply</th>
-                <th class="col-sm-2">Username</th>
-                <th class="col-sm-3">From</th>
-                <th class="col-sm-3">Created</th>
-                {% if g.__user__.admin %}
-                <th class="col-sm-1">Actions</th>
-                {% endif %}
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="item in comment.subcontent">
-                <td v-text="item.content | summary 36"></td>
-                <td v-text="item.user_name"></td>
-                <td v-text="comment.content | summary 36"></td>
-                <td v-text="item.created | datetime"></td>
-                {% if g.__user__.admin %}
-                <td>
-                    <button v-on:click="delete_one(comment, item)" class="btn btn-xs btn-warning">
-                        <i class="glyphicon glyphicon-trash"></i> Delete
-                    </button>
-                </td>
-                {% endif %}
-            </tr>
-        </tbody>
-    </table>
 </div>
 {% endblock %}
 {% block script %}
-    <script src="/static/js/manage.js"></script>
+<script src="/static/js/manage.js"></script>
 {% endblock %}

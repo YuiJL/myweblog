@@ -15,10 +15,7 @@ $("textarea").keydown(function(e) {
 
 $(document).ready(function() {
     $("#change").click(function() {
-        $("#upload").fadeToggle('fast');
-    });
-    $("#control").click(function() {
-        $("#upload").fadeOut('fast');
+        $("#upload").fadeToggle();
     });
 });
 

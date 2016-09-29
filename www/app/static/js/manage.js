@@ -58,13 +58,6 @@ new Vue({
             }).done(function(data) {
                 self.comment.subcontent.$remove(item);
             });
-        },
-        show: function(id) {
-            var self = this;
-            $('#subtable').fadeToggle('fast');
-            $.getJSON('/api/comments/' + id, function(data) {
-                self.comment = data;
-            });
         }
     }
 });
