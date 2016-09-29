@@ -3,7 +3,7 @@
 
 __author__ = 'Jiayi Li'
 
-import time, os
+import time, os, re
 
 from bson.objectid import ObjectId
 from werkzeug.utils import secure_filename
@@ -86,7 +86,7 @@ def api_post_blog():
     if not g.__user__.get('admin'):
         return make_response('Permission denied.', 403)
     title = request.form.get('title')
-    tag = request.form.get('tag')
+    tag = request.form.get('tag').lstrip(r'/\;,. ').rstrip(r'/\;,. ')
     content = request.form.get('content')
     # create a new Blog and save it to mongodb
     blog = Blog(
@@ -94,7 +94,7 @@ def api_post_blog():
         user_name = g.__user__.get('name'),
         user_image = g.__user__.get('image'),
         title = title.strip(),
-        tag = tag.split(),
+        tag = re.split(r'[\s\;\,\.\\\/]+', tag),
         content = content.lstrip('\n').rstrip()
     )
     blog_resp = blog.__dict__
@@ -111,7 +111,7 @@ def api_edit_blog(blog_id):
     if not g.__user__.get('admin'):
         return make_response('Permission denied.', 403)
     title = request.form.get('title')
-    tag = request.form.get('tag')
+    tag = request.form.get('tag').lstrip(r'/\;,. ').rstrip(r'/\;,. ')
     content = request.form.get('content')
     content = content.lstrip('\n').rstrip()
     db.blogs.update_one(
@@ -119,7 +119,7 @@ def api_edit_blog(blog_id):
         {
             '$set': {
                 'title': title.strip(),
-                'tag': tag.split(),
+                'tag': re.split(r'[\s\;\,\.\\\/]+', tag),
                 'content': content,
                 'summary': '%s%s' % (content[:140], '...'),
                 'last_modified': True,
