@@ -13,6 +13,8 @@ class Config(object):
     COOKIE_NAME = "YuiSession"
     SECRET_KEY = "YuiJLWebLog"
     UPLOAD_FOLDER = os.path.join(APP_ROOT, 'app/static/img')
+    RECAPTCHA_SITE_KEY = "6LcD7Qc*********************************"
+    RECAPTCHA_SECRET_KEY = "6LcD7Qc*********************************"
     
     
 class DevConfig(Config):

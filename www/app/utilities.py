@@ -3,7 +3,7 @@
 
 __author__ = 'Jiayi Li'
 
-import time, hashlib, json
+import time, hashlib, json, urllib
 from flask import current_app, request
 from bson.objectid import ObjectId
 from app import db
@@ -94,6 +94,26 @@ def loginResponse(response, cookie, max_age=86400):
     
     response.set_cookie(current_app.config['COOKIE_NAME'], cookie, max_age, httponly=True)
     return response
+
+
+def checkRecaptcha(secret, response):
+    
+    '''
+    check if Google has verified the user by sending a POST request to Google recaptcha api
+    '''
+    
+    url = 'https://www.google.com/recaptcha/api/siteverify'
+    url = url + '?secret=' + secret
+    url = url + '&response=' + response
+    try:
+        jsonobj = json.loads(urllib.request.urlopen(url).read().decode('utf-8'))
+        if jsonobj['success']:
+            return True
+        else:
+            return False
+    except Exception as e:
+        print(e)
+        return False
 
 
 def signOutResponse(response):

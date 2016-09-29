@@ -10,6 +10,7 @@
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="stylesheet" href="/static/css/yui.css" />
     <link rel="stylesheet" href="/static/css/style.css" />
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
     <nav class="navbar navbar-default navbar-fixed">
@@ -89,9 +90,8 @@
         <div class="form-group">
             <input type="file" name="file">
         </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-success btn-xs">Upload</button>
-        </div>
+        <button type="submit" class="btn btn-primary">Upload</button>
+        <a class="close" onclick="$('#upload').fadeOut()">&times;</a>
     </form>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

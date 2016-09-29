@@ -45,7 +45,8 @@ body {
     margin: auto;
     left: 25%;
     width: 50%;
-    background-color: grey;
+    border-radius: 5px;
+    background-color: yellow;
 }
 
 #login-dp {
@@ -305,4 +306,10 @@ a:hover {
 
 #signupform .alert {
     padding: 10px;
+}
+
+#recaptcha {
+    margin: auto;
+    width: 50%;
+    padding-bottom: 10px;
 }

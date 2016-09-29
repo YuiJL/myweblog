@@ -10,7 +10,7 @@ from flask import request, redirect, url_for, render_template, jsonify, abort, B
 
 from app import db
 from app.models import User
-from app.utilities import userToCookie, validPassword, loginResponse, signOutResponse, viewToCookie
+from app.utilities import userToCookie, validPassword, loginResponse, signOutResponse, viewToCookie, checkRecaptcha
 
 route = Blueprint('route', __name__)
 
@@ -24,8 +24,8 @@ def index():
     
     '''homepage'''
     
-    blogs = db.blogs.find().sort("created", -1).limit(5)
-    pages = [str(i) for i in range(1, math.ceil(db.blogs.count() / 5) + 1)]
+    blogs = db.blogs.find().sort("created", -1).limit(10)
+    pages = [str(i) for i in range(1, math.ceil(db.blogs.count() / 10) + 1)]
     return render_template('blogs.html', blogs=blogs, blogs2=blogs, pages=pages, page='1')
 
 
@@ -34,8 +34,8 @@ def blogs_by_page(page):
     
     '''show blogs by page'''
     
-    blogs = db.blogs.find().sort("created", -1).limit(5).skip(5*(int(page)-1))
-    pages = [str(i) for i in range(1, math.ceil(db.blogs.count() / 5) + 1)]
+    blogs = db.blogs.find().sort("created", -1).limit(10).skip(10*(int(page)-1))
+    pages = [str(i) for i in range(1, math.ceil(db.blogs.count() / 10) + 1)]
     return render_template('blogs.html', blogs=blogs, blogs2=blogs, pages=pages, page=page)
 
 
@@ -97,8 +97,11 @@ def register():
         if g.__user__:
             flash('Already sign in')
             return redirect(url_for('route.index'))
-        return render_template('register.html')
+        return render_template('register.html', site_key=current_app.config['RECAPTCHA_SITE_KEY'])
     else:
+        resp = request.form.get('recaptcha')
+        if not checkRecaptcha(current_app.config['RECAPTCHA_SECRET_KEY'], resp):
+            return make_response("You're a bot.", 403)
         users = db.users
         name = request.form.get('name')
         if users.find_one({'name': name}):

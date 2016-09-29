@@ -36,7 +36,8 @@ new Vue({
                 data: {
                     name: self.name.trim(),
                     email: self.email,
-                    sha1_password: sha1(self.email + ':' + self.password1)
+                    sha1_password: sha1(self.email + ':' + self.password1),
+                    recaptcha: grecaptcha.getResponse()
                 }, 
                 method: "POST"
             }).done(function() {
