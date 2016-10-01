@@ -13,12 +13,6 @@ $("textarea").keydown(function(e) {
     }
 });
 
-$(document).ready(function() {
-    $("#change").click(function() {
-        $("#upload").fadeToggle();
-    });
-});
-
 new Vue({
     el: '#loginform',
     data: {

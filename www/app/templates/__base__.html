@@ -37,7 +37,7 @@
                         {% if g.__user__.admin %}
                         <li><a href="/manage/blogs/newblog"><span class="glyphicon glyphicon-plus"></span> New blog</a></li>
                         {% endif %}
-                        <li><a id="change"><span class="glyphicon glyphicon-picture"></span> Update avatar</a></li>
+                        <li><a data-toggle="modal" data-target="#upload"><span class="glyphicon glyphicon-picture"></span> Update avatar</a></li>
                         <li><a href="/signout"><span class="glyphicon glyphicon-log-out"></span> Sign out</a></li>
                     </ul>
                 </li>
@@ -81,17 +81,26 @@
             {% endblock %}
         </div>
     </div>
+    <div class="modal fade" id="upload" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Upload image file</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-inline" action="/api/image/{{ g.__user__._id }}" method="post" enctype="multipart/form-data">
+                        <label class="btn btn-primary">Browse<input type="file" name="file" style="display:none"></label>
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <footer class="container-fluid text-center">
         <p>&copy; 2016 Jiayi Li. All rights reserved.</p>
         <p>Proudly powered by <a target="_blank" href="http://getbootstrap.com">Bootstrap</a> and <a target="_blank" href="http://flask.pocoo.org">Flask</a></p>
     </footer>
-    <form id="upload" class="form-inline" action="/api/image/{{ g.__user__._id }}" method="post" enctype="multipart/form-data" hidden>
-        <div class="form-group">
-            <input type="file" name="file">
-        </div>
-        <button type="submit" class="btn btn-primary">Upload</button>
-        <a class="close" onclick="$('#upload').fadeOut()">&times;</a>
-    </form>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/static/js/vue.min.js"></script>

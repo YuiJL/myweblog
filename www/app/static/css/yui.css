@@ -23,6 +23,7 @@ body {
     color: #A22041;
 }
 
+.dropdown-menu a,
 #signin, #change, #user {
     cursor: pointer;
 }
@@ -41,12 +42,8 @@ body {
 
 #upload {
     position: fixed;
-    bottom: 0;
+    top: 30%;
     margin: auto;
-    left: 25%;
-    width: 50%;
-    border-radius: 5px;
-    background-color: yellow;
 }
 
 #login-dp {
