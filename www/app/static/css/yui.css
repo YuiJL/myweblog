@@ -18,13 +18,13 @@ body {
 
 .navbar-header i,
 #navbarleft a,
-#signin,
-#last > a {
+#navbarright a {
     color: #A22041;
 }
 
 .dropdown-menu a,
-#signin, #change, #user {
+#navbarright a,
+#change, #user {
     cursor: pointer;
 }
 
@@ -34,8 +34,7 @@ body {
 
 .navbar-header i:hover,
 #navbarleft a:hover,
-#signin:hover,
-#last > a:hover,
+#navbarright a:hover,
 #user:hover {
     color: #F7C114;
 }
@@ -43,22 +42,36 @@ body {
 #upload {
     position: fixed;
     top: 30%;
-    margin: auto;
 }
 
-#login-dp {
-    min-width: 250px;
-    padding: 14px 14px 0;
-    overflow: hidden;
-    background-color: white;
+#signin {
+    position: fixed;
+    top: 10%;
 }
 
-#login-dp .alert {
-    padding: 2px;
+#signin .modal-header,
+#signin h4,
+#signin .close {
+    background-color: #5CB85C;
+    color: white;
+    text-align: center;
+    font-size: 30px;
 }
 
-#login-dp .form-group {
-    margin-bottom: 10px;
+#signin .modal-header {
+    padding: 35px 50px;
+}
+
+#signin .modal-body {
+    padding: 40px 50px;
+}
+
+#signin .modal-footer {
+    background-color: #F9F9F9;
+}
+
+#signinform button {
+    margin-top: 25px;
 }
 
 footer {
@@ -303,7 +316,7 @@ a:hover {
     margin-top: 30px;
 }
 
-.form-group:first-child {
+.register:first-child {
     margin-bottom: 0;
 }
 
@@ -312,7 +325,7 @@ a:hover {
     padding: 10px;
 }
 
-.form-group {
+.register {
     padding: 0 20px;
     margin-top: 0;
     margin-bottom: 5px;

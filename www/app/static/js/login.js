@@ -14,14 +14,26 @@ $("textarea").keydown(function(e) {
 });
 
 new Vue({
-    el: '#loginform',
+    el: '#navbarright',
+    methods: {
+        clear: function() {
+            base.email = '';
+            base.password = '';
+            base.message = '';
+            $('#error').hide();
+        }
+    }
+})
+
+var base = new Vue({
+    el: '#signin',
     data: {
         email: '',
         password: '',
         message: ''
     },
     methods: {
-        login: function() {
+        signin: function() {
             this.email = this.email.trim();
             var self = this;
             $.ajax('/auth', {
@@ -34,8 +46,8 @@ new Vue({
                 return location.assign(location.pathname);
             }).fail(function(xhr) {
                 self.message = xhr.responseText;
-                return $('.alert').show();
+                return $('#error').show();
             });
         }
     }
-})
+});

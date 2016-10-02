@@ -6,31 +6,31 @@
 <div class="panel panel-primary" id="signupbox">
     <div class="panel-body">
         <form id="signupform" v-on:submit.prevent="register" class="form-horizontal">
-            <div class="form-group">
+            <div class="form-group register">
                 <h2>Create account</h2>
             </div>
             <div class="alert alert-danger" hidden>
                 <a class="close" onclick="$('.alert').fadeOut()">&times;</a>
                 <span v-text="message"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group register">
                 <label class="control-label">Username</label>
                 <input class="form-control" v-model="name" type="name" placeholder="Name" required>
             </div>
-            <div class="form-group">
+            <div class="form-group register">
                 <label class="control-label">E-mail</label>
                 <input class="form-control" v-model="email" type="email" placeholder="Email Address" required>
             </div>
-            <div class="form-group">
+            <div class="form-group register">
                 <label class="control-label">Password</label>
                 <input class="form-control" v-model="pw1" type="password" maxlength="16" placeholder="Password" required>
             </div>
-            <div class="form-group">
+            <div class="form-group register">
                 <label class="control-label">Password again</label>
                 <input class="form-control" v-model="pw2" type="password" maxlength="16" placeholder="Password" required>
             </div>
-            <div class="g-recaptcha form-group" id="recaptcha" data-sitekey="{{ site_key }}"></div>
-            <div class="form-group">
+            <div class="g-recaptcha form-group register" id="recaptcha" data-sitekey="{{ site_key }}"></div>
+            <div class="form-group register">
                 <button class="btn btn-info btn-block" type="submit">Sign up</button>
             </div>
         </form>
