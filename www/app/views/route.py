@@ -99,9 +99,6 @@ def register():
             return redirect(url_for('route.index'))
         return render_template('register.html', site_key=current_app.config['RECAPTCHA_SITE_KEY'])
     else:
-        resp = request.form.get('recaptcha')
-        if not checkRecaptcha(current_app.config['RECAPTCHA_SECRET_KEY'], resp):
-            return make_response("You're a bot.", 403)
         users = db.users
         name = request.form.get('name')
         if users.find_one({'name': name}):
@@ -109,6 +106,9 @@ def register():
         email = request.form.get('email')
         if users.find_one({'email': email}):
             return make_response('E-mail is taken, please try another.', 403)
+        resp = request.form.get('recaptcha')
+        if not checkRecaptcha(current_app.config['RECAPTCHA_SECRET_KEY'], resp):
+            return make_response("You're a bot.", 403)
         password = request.form.get('sha1_password')
         user = User(name=name, email=email, password=password) # self registration
         user_resp = user.__dict__ # an user dict
