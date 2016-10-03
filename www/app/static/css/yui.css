@@ -39,19 +39,19 @@ body {
     color: #F7C114;
 }
 
-#upload {
-    position: fixed;
-    top: 30%;
+.modal-body img {
+    display: block;
+    width: 100%;
+    margin: auto;
+    margin-bottom: 15px;
 }
 
-#signin {
-    position: fixed;
+#upload, #signin {
     top: 10%;
 }
 
 #signin .modal-header,
-#signin h4,
-#signin .close {
+#signin h4 {
     background-color: #5CB85C;
     color: white;
     text-align: center;
@@ -59,11 +59,11 @@ body {
 }
 
 #signin .modal-header {
-    padding: 35px 50px;
+    padding: 20px 10px;
 }
 
 #signin .modal-body {
-    padding: 40px 50px;
+    padding: 30px 20px;
 }
 
 #signin .modal-footer {
