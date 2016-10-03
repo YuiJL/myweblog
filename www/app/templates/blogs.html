@@ -4,9 +4,9 @@
 {% block content %}
 <div class="col-sm-9" id="home">
     <div class="text-right">
-        <button class="btn btn-default btn-xs" v-on:click="viewmode('?view=catalog')">
+        <button class="btn btn-default btn-xs" @click="viewmode('?view=catalog')">
             <span class="glyphicon glyphicon-list"></span> Catalog View</button>
-        <button class="btn btn-default btn-xs" v-on:click="viewmode('?view=summary')">
+        <button class="btn btn-default btn-xs" @click="viewmode('?view=summary')">
             <span class="glyphicon glyphicon-th"></span> Summary View</button>
     </div>
     {% if g.__view__ != 'catalog' %}
@@ -23,7 +23,7 @@
         <tbody>
             {% for b in blogs2 %}
             <tr>
-                <td class="col-sm-6"><a v-bind:href="'/blog/'+ '{{ b._id }}'">{{ b.title }}</a></td>
+                <td class="col-sm-6"><a :href="'/blog/'+ '{{ b._id }}'">{{ b.title }}</a></td>
                 <td class="col-sm-2 text-right">{{ b.user_name }}</td>
                 <td class="col-sm-4 text-right">{{ b.created|datetime("catalog") }}</td>
             </tr>

@@ -15,7 +15,7 @@
     {{ blog.content|markdown|safe }}<hr>
     {% if g.__user__ %}
     <h4>Leave a comment:</h4>
-    <form class="form" v-on:submit.prevent="submit">
+    <form class="form" @submit.prevent="submit">
         <div class="form-group">
             <textarea class="form-control" rows="5" v-model="comment" placeholder="Join the discussion..." required></textarea>
         </div>
@@ -30,7 +30,7 @@
     <p>Comments <span class="badge" v-text="comments | count"></span></p>
     <div class="row" id="replyarea" v-for="(index, item) in comments" track-by="_id">
         <div class="col-sm-2 text-center">
-            <img v-bind:src="item.user_image" class="img-circle" alt="Avatar" />
+            <img :src="item.user_image" class="img-circle" alt="Avatar" />
         </div>
         <div class="col-sm-10" id="replybody">
             <h4 v-if="item.user_name===item.blog_author" class="text-primary" v-text="item.user_name"></h4>
@@ -39,18 +39,18 @@
             <h4 style="float:right" class="text-muted" v-text="index | getIndex comments.length"></h4>
             <p id="replycontent" v-html="item.content"></p>
             {% if g.__user__ %}
-            <a v-on:click="replyBox(item._id, index, 1, '')" onclick="blackMagic($(this), 1)" id="replybutton">
+            <a @click="replyBox(item._id, index, 1, '')" onclick="blackMagic($(this), 1)" id="replybutton">
                 <i class="glyphicon glyphicon-share-alt"></i> Reply
             </a>
             {% if g.__user__.admin %}
-            <a v-on:click="delete(item)" id="deletebutton"><i class="glyphicon glyphicon-trash"></i> Delete</a>
+            <a @click="delete(item)" id="deletebutton"><i class="glyphicon glyphicon-trash"></i> Delete</a>
             {% endif %}
             {% else %}
             <a id="noreply" class="text-muted"><i class="glyphicon glyphicon-share-alt"></i></a>
             {% endif %}
             <div class="row" id="subbox" v-if="item.subcomment" v-for="comment in item.subcontent">
                 <div class="col-sm-1">
-                    <img v-bind:src="comment.user_image" class="img-circle" alt="Avatar" />
+                    <img :src="comment.user_image" class="img-circle" alt="Avatar" />
                 </div>
                 <div class="col-sm-11" id="replybody">
                     <h5 v-if="comment.user_name===item.blog_author" class="text-primary" v-text="comment.user_name"></h5>
@@ -58,11 +58,11 @@
                     <h4><small v-text="comment.created | datetime"></small></h4>
                     <p v-html="comment.content"></p>
                     {% if g.__user__ %}
-                    <a v-on:click="replyBox(item._id, index, 2, comment.user_name)" onclick="blackMagic($(this), 2)" id="replybutton2">
+                    <a @click="replyBox(item._id, index, 2, comment.user_name)" onclick="blackMagic($(this), 2)" id="replybutton2">
                         <i class="glyphicon glyphicon-share-alt"></i> Reply
                     </a>
                     {% if g.__user__.admin %}
-                    <a v-on:click="delete_one(item, comment)" id="deletebutton2">
+                    <a @click="delete_one(item, comment)" id="deletebutton2">
                         <i class="glyphicon glyphicon-trash"></i> Delete
                     </a>
                     {% endif %}
@@ -71,7 +71,7 @@
                     {% endif %}
                 </div>
             </div>
-            <form class="form" v-on:submit.prevent="reply" style="display:none"><br>
+            <form class="form" @submit.prevent="reply" style="display:none"><br>
                 <div class="row">
                     <div class="form-group col-sm-10">
                         <textarea class="form-control" rows="3" v-text="sth" v-model="subcomment" required></textarea>

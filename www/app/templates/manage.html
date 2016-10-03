@@ -49,7 +49,7 @@
                 <td v-text="document.user_name"></td>
                 <td v-text="document.blog_title | summary 34"></td>
                 {% elif collection == "blogs" %}
-                <td><a v-bind:href="'/blog/'+document._id" v-text="document.title | summary 40"></a></td>
+                <td><a :href="'/blog/'+document._id" v-text="document.title | summary 40"></a></td>
                 <td v-text="document.user_name"></td>
                 {% else %}
                 <td v-text="document.name"></td>
@@ -58,10 +58,10 @@
                 <td v-text="document.created | datetime"></td>
                 {% if g.__user__.admin %}
                 <td v-show="'{{collection}}'!=='users'">
-                    <a v-bind:href="'/manage/blogs/edit?id='+document._id" v-show="'{{collection}}'==='blogs'">
+                    <a :href="'/manage/blogs/edit?id='+document._id" v-show="'{{collection}}'==='blogs'">
                         <button class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-pencil"></i> Edit</button>
                     </a>
-                    <button v-on:click="delete(document)" class="btn btn-xs btn-danger">
+                    <button @click="delete(document)" class="btn btn-xs btn-danger">
                         <i class="glyphicon glyphicon-trash"></i> Delete
                     </button>
                 </td>

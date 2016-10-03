@@ -5,7 +5,7 @@
 {% block content %}
 <div class="panel panel-primary" id="signupbox">
     <div class="panel-body">
-        <form id="signupform" v-on:submit.prevent="register" class="form-horizontal">
+        <form id="signupform" @submit.prevent="register" class="form-horizontal">
             <div class="form-group register">
                 <h2>Create account</h2>
             </div>
