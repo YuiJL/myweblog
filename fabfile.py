@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 __author__ = 'Jiayi Li'
@@ -12,7 +11,7 @@ from fabric.api import *
 env.user = 'ubuntu'
 env.sudo_user = 'root'
 env.hosts = ['***.***.***.***'] # remote host ip
-env.key_filename = ['~/.ssh/***.pem'] # ssh public key
+env.key_filename = ['~/.ssh/***.pem'] # ssh private key
 
 _TAR_FILE = 'dist-myweblog.tar.gz'
 
@@ -99,7 +98,7 @@ def rollback():
         sudo('ln -s %s www' % old)
         sudo('chown www-data:www-data www')
         with settings(warn_only=True):
-            sudo('supervisorctl stop awesome')
-            sudo('supervisorctl start awesome')
+            sudo('supervisorctl stop myweblog')
+            sudo('supervisorctl start myweblog')
             sudo('/etc/init.d/nginx reload')
         print('ROLLBACKED OK.')
