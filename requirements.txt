@@ -1,0 +1,23 @@
+env: Python v3.5.2
+
+front-end:
+    jQuery v1.12.4 (from Google CDN)
+    Bootstrap v3.3.7 (from MaxCDN)
+    Vue.js v1.0.28
+    
+back-end:
+    Flask v0.11.1
+    Werkzeug v0.11.11
+    
+database:
+    MongoDB v3.2.9
+    PyMongo v3.3.0 (MongoDB Python Driver)
+    bson (included in PyMongo)
+
+auto-deploy:
+    Fabric v1.12.0 (Python v2.7 env) (pip2 install Fabric)
+    
+markdown:
+    mistune v0.7.3
+    Pygments v2.1.3
+    
