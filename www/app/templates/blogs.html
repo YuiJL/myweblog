@@ -13,7 +13,7 @@
     {% for blog in blogs %}
     <h3 class="text-primary">{{ blog.title }}</h3>
     <h4><small><i class="glyphicon glyphicon-time"></i> Posted by {{ blog.user_name }}, {{ blog.created|datetime("summary") }}
-        {% if blog.last_modified %}/ Last modified, {{ blog.modified|datetime("summary") }} {% endif %}</small></h4>
+        {% if blog.last_modified %}/ Last modified: {{ blog.modified|datetime("summary") }} {% endif %}</small></h4>
     <h5>{% for tag in blog.tag %}<span class="label label-{{ labels|random }}">{{ tag }}</span>  {% endfor %}</h5>
     {{ blog.summary|markdown|safe }}
     <p><a href="blog/{{ blog._id }}">Read More <span class="glyphicon glyphicon-chevron-right"></span></a></p><hr>

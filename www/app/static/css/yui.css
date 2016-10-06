@@ -24,7 +24,8 @@ body {
 
 .dropdown-menu a,
 #navbarright a,
-#change, #user {
+#change, #user,
+#commentsignin {
     cursor: pointer;
 }
 

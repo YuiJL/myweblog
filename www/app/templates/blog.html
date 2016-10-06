@@ -6,7 +6,7 @@
 <div class="col-sm-9" id="main">
     <h2 class="text-primary">{{ blog.title }}</h2>
     <h4 class="text-muted"><i class="glyphicon glyphicon-time"></i> Posted by {{ blog.user_name }}, {{ blog.created|datetime('summary') }}
-        {% if blog.last_modified %}/ Last modified, {{ blog.modified|datetime('summary') }} {% endif %}</h4>
+        {% if blog.last_modified %}/ Last modified: {{ blog.modified|datetime('summary') }} {% endif %}</h4>
     <h4>{% set labels = ['primary', 'success', 'info', 'warning', 'danger'] %}
         {% for tag in blog.tag %}
         <span class="label label-{{ labels|random }}">{{ tag }}</span>
@@ -25,7 +25,7 @@
     </form>
     <br><br>
     {% else %}
-    <h4 class="text-right">Please sign in to make a comment</h4>
+    <h4 class="text-right">Please <a data-toggle="modal" data-target="#signin" id="commentsignin" @click.prevent="clear">sign in</a> to make a comment</h4>
     {% endif %}
     <p>Comments <span class="badge" v-text="comments | count"></span></p>
     <div class="row" id="replyarea" v-for="(index, item) in comments" track-by="_id">

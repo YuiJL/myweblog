@@ -21,6 +21,18 @@ function blackMagic(tag, mode) {
     }
 }
 
+new Vue({
+    el: '#commentsignin',
+    methods: {
+        clear: function() {
+            base.email = '';
+            base.password = '';
+            base.message = '';
+            $('#error').hide();
+        }
+    }
+})
+
 var vm = new Vue({
     el: '#control',
     data: {
