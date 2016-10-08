@@ -12,23 +12,23 @@ from app.filters import datetime_filter, markdown_filter
 client = MongoClient()
 db = client.test
 
-from app.utilities import cookieToUser, cookieToView
+from app.utilities import cookie_to_user, cookie_to_view
 from app.views.route import route
 from app.views.api import api
 
-def signInStatus():
+def sign_in_status():
     
     '''sign in status before each request'''
     
     cookie = request.cookies.get(current_app.config['COOKIE_NAME'], 'nothing')
-    g.__user__ = cookieToUser(cookie)
+    g.__user__ = cookie_to_user(cookie)
 
-def viewStatus():
+def view_status():
     
     '''view mode status before each request'''
     
     cookie = request.cookies.get(current_app.config['COOKIE_NAME'], 'nothing')
-    g.__view__ = cookieToView(cookie)
+    g.__view__ = cookie_to_view(cookie)
     
 def create_app():
     
@@ -41,8 +41,8 @@ def create_app():
     # add filters
     app.jinja_env.filters.update(datetime=datetime_filter, markdown=markdown_filter)
     # add before request functions
-    app.before_request(signInStatus)
-    app.before_request(viewStatus)
+    app.before_request(sign_in_status)
+    app.before_request(view_status)
     # register routes
     app.register_blueprint(route)
     app.register_blueprint(api)

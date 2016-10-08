@@ -10,7 +10,7 @@ from flask import request, redirect, url_for, render_template, jsonify, abort, B
 
 from app import db
 from app.models import User
-from app.utilities import userToCookie, validPassword, loginResponse, signOutResponse, viewToCookie, checkRecaptcha
+from app.utilities import user_to_cookie, valid_password, login_response, sign_out_response, view_to_cookie, check_recaptcha
 
 route = Blueprint('route', __name__)
 
@@ -107,15 +107,15 @@ def register():
         if users.find_one({'email': email}):
             return make_response('E-mail is taken, please try another.', 403)
         resp = request.form.get('recaptcha')
-        if not checkRecaptcha(current_app.config['RECAPTCHA_SECRET_KEY'], resp):
+        if not check_recaptcha(current_app.config['RECAPTCHA_SECRET_KEY'], resp):
             return make_response("You're a bot.", 403)
         password = request.form.get('sha1_password')
         user = User(name=name, email=email, password=password) # self registration
         user_resp = user.__dict__ # an user dict
         user_resp.update(_id=str(user_resp['_id'])) # must convert the ObjectId to string first
-        cookie = userToCookie(user_resp)
+        cookie = user_to_cookie(user_resp)
         user_resp.update(password='******')
-        return loginResponse(jsonify(user=user_resp), cookie)
+        return login_response(jsonify(user=user_resp), cookie)
 
 
 @route.route('/auth', methods=['POST'])
@@ -132,12 +132,12 @@ def auth():
     if not user_resp:
         return make_response('Invalid email', 403)
     # password is wrong
-    if not validPassword(user_resp, password):
+    if not valid_password(user_resp, password):
         return make_response('Wrong password', 403)
     user_resp.update(_id=str(user_resp['_id']))
     cookie = userToCookie(user_resp) # must convert the ObjectId to string first
     user_resp.update(password='******')
-    return loginResponse(jsonify(user=user_resp), cookie)
+    return login_response(jsonify(user=user_resp), cookie)
     
     
 @route.route('/signout')
@@ -145,7 +145,7 @@ def signout():
     
     '''return a sign out response'''
     
-    return signOutResponse(redirect(request.referrer or url_for('route.index')))
+    return sign_out_response(redirect(request.referrer or url_for('route.index')))
 
 
 @route.route('/', methods=['POST'])
@@ -154,7 +154,7 @@ def view_mode():
     '''return a response with view mode cookie set'''
     
     view_mode = request.args.get('view')
-    cookie = viewToCookie(view_mode)
+    cookie = view_to_cookie(view_mode)
     response = jsonify(view=view_mode)
     response.set_cookie(current_app.config['COOKIE_NAME'], cookie, max_age=86400, httponly=True)
     return response

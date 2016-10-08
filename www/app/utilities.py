@@ -8,7 +8,7 @@ from flask import current_app, request
 from bson.objectid import ObjectId
 from app import db
 
-def userToCookie(user, max_age=86400):
+def user_to_cookie(user, max_age=86400):
     
     '''
     return cookie from an user dict
@@ -21,7 +21,7 @@ def userToCookie(user, max_age=86400):
     return '-'.join(L) + '+' + view_cookie
 
 
-def cookieToUser(cookie):
+def cookie_to_user(cookie):
     
     '''
     return an user dict from cookie, find by '_id'
@@ -48,7 +48,7 @@ def cookieToUser(cookie):
         print(e)
         
         
-def viewToCookie(view):
+def view_to_cookie(view):
     
     '''return cookie from query string'''
     
@@ -56,7 +56,7 @@ def viewToCookie(view):
     return user_cookie + '+' + view
 
 
-def cookieToView(cookie):
+def cookie_to_view(cookie):
     
     '''extract view mode from cookie'''
     
@@ -66,7 +66,7 @@ def cookieToView(cookie):
     return view
 
 
-def validPassword(user, password):
+def valid_password(user, password):
     
     '''
     verify password
@@ -79,14 +79,14 @@ def validPassword(user, password):
     return sha1.hexdigest() == user['password']
 
 
-def allowedFile(filename):
+def allowed_file(filename):
     
     '''allowed extension for uploaded files'''
     
     return '.' in filename and filename.rsplit('.', 1)[1] in current_app.config['ALLOWED_EXTENSIONS']
 
 
-def loginResponse(response, cookie, max_age=86400):
+def login_response(response, cookie, max_age=86400):
     
     '''
     return a login response with cookie set
@@ -96,17 +96,19 @@ def loginResponse(response, cookie, max_age=86400):
     return response
 
 
-def checkRecaptcha(secret, response):
+def check_recaptcha(secret, response):
     
     '''
     check if Google has verified the user by sending a POST request to Google recaptcha api
     '''
     
     url = 'https://www.google.com/recaptcha/api/siteverify'
-    url = url + '?secret=' + secret
-    url = url + '&response=' + response
+    values = {}
+    values.update(secret=secret)
+    values.update(response=response)
+    data = urllib.parse.urlencode(values).encode('utf-8')
     try:
-        jsonobj = json.loads(urllib.request.urlopen(url).read().decode('utf-8'))
+        jsonobj = json.loads(urllib.request.urlopen(url, data).read().decode('utf-8'))
         if jsonobj['success']:
             return True
         else:
@@ -116,7 +118,7 @@ def checkRecaptcha(secret, response):
         return False
 
 
-def signOutResponse(response):
+def sign_out_response(response):
     
     '''
     return a sign out response with cookie deleted

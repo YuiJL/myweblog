@@ -12,7 +12,7 @@ from flask import request, redirect, url_for, jsonify, abort, Blueprint, make_re
 from app import db
 from app.models import User, Blog, Comment
 from app.filters import markdown_filter
-from app.utilities import allowedFile, cookieToUser
+from app.utilities import allowed_file, cookie_to_user
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
@@ -262,7 +262,7 @@ def api_upload(user_id):
     if file.filename == '':
         flash('No selected file')
         return redirect(request.referrer)
-    if file and allowedFile(file.filename):
+    if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
         
