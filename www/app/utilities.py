@@ -4,6 +4,8 @@
 __author__ = 'Jiayi Li'
 
 import time, hashlib, json, urllib
+import requests
+
 from flask import current_app, request
 from bson.objectid import ObjectId
 from app import db
@@ -103,12 +105,9 @@ def check_recaptcha(secret, response):
     '''
     
     url = 'https://www.google.com/recaptcha/api/siteverify'
-    values = {}
-    values.update(secret=secret)
-    values.update(response=response)
-    data = urllib.parse.urlencode(values).encode('utf-8')
+    data = {'secret': secret, 'response': response}
     try:
-        jsonobj = json.loads(urllib.request.urlopen(url, data).read().decode('utf-8'))
+        jsonobj = json.loads(requests.post(url, data=data).text)
         if jsonobj['success']:
             return True
         else:
